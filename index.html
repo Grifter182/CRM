@@ -33,16 +33,11 @@
           fadeInUp: {
             '0%': { opacity: '0', transform: 'translateY(6px)' },
             '100%': { opacity: '1', transform: 'translateY(0)' },
-          },
-           kenBurns: {
-              '0%': { transform: 'scale(1) rotate(0deg)', backgroundPosition: 'center' },
-              '100%': { transform: 'scale(1.1) rotate(1deg)', backgroundPosition: 'top left' }
-            }
+          }
         },
         animation: {
-          'gradient-move': 'gradientMove 4s ease infinite',
+          'gradient-move': 'gradientMove 8s ease infinite',
           'fade-in-up': 'fadeInUp 500ms ease-out forwards',
-          'kenBurns': 'kenBurns 20s ease-in-out infinite alternate'
         }
       }
     }
@@ -70,18 +65,6 @@
   .dark .border-slate-800, .dark .border-slate-700 { border-color:#2a2a2a !important; }
   .dark .text-slate-400, .dark .text-slate-300, .dark .text-slate-100 { color:#c8c8c8 !important; }
 
-  .hero-bg-container::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: url('hero.jpg');
-        background-size: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        animation: kenBurns 20s ease-in-out infinite alternate;
-        z-index: -20;
-    }
-
 </style>
 
     <style>
@@ -92,7 +75,7 @@
     <!-- Mobile header (brand) -->
     <header class="md:hidden flex items-center justify-between p-4 border-b border-slate-800">
       <div class="flex items-center gap-2">
-        <img src="goldshield.png" alt="Merchant Haus" class="h-8 w-8" />
+        <img src="2.png" alt="Merchant Haus" class="h-8 w-8" />
         <div>
           <span class="text-xl font-bold font-ubuntu text-brand-400">Merchant Haus</span>
           <span class="block text-lg font-semibold text-slate-400">Retail Manager</span>
@@ -103,15 +86,16 @@
 
     <main class="min-h-[calc(100vh-64px)] md:min-h-screen md:grid md:grid-cols-2">
       <!-- Brand panel -->
-      <section aria-hidden="true" class="hidden md:flex relative overflow-hidden hero-bg-container">
-        <div class="absolute inset-0 bg-black/60 -z-10"></div>
+      <section aria-hidden="true" class="hidden md:flex relative overflow-hidden bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 animate-gradient-move" style="background-size: 200% 200%;">
         <div class="relative z-10 flex flex-col items-center justify-center p-12 text-white text-center">
           <div class="flex flex-col items-center gap-3 mb-6 animate-fade-in-up">
-            <img src="goldshield.png" alt="Merchant Haus" class="h-16 w-16 drop-shadow" />
-            <h1 class="text-4xl font-bold font-ubuntu text-brand-400">
+            <h1 class="text-2xl font-bold font-ubuntu text-brand-400">
               Merchant Haus
             </h1>
-            <h2 class="text-2xl font-semibold text-slate-300">Retail Manager</h2>
+            <div class="flex items-center gap-3">
+                <img src="goldshield.png" alt="Retail Manager" class="h-16 w-16 drop-shadow" />
+                <h2 class="text-4xl font-semibold text-slate-100">Retail Manager</h2>
+            </div>
           </div>
           <p class="max-w-md text-white/90 font-lexend" style="font-weight: 100;">
             Streamline your retail operations with our comprehensive CRM. Manage inventory, track sales, oversee subscriptions, and generate detailed reports, all from one intuitive, white-label ready platform.
@@ -124,10 +108,12 @@
         <div class="w-full max-w-md">
           <!-- Logo -->
           <div class="mb-8 text-center md:text-left">
-            <img src="goldshield.png" alt="Merchant Haus" class="h-10 w-10 inline-block align-middle mr-2" data-logo />
             <div class="inline-block align-middle">
-                <span class="text-2xl font-bold font-ubuntu text-brand-400">Merchant Haus</span>
-                <span class="block text-xl font-semibold text-slate-400">Retail Manager</span>
+                <span class="text-xl font-bold font-ubuntu text-brand-400">Merchant Haus</span>
+                <div class="flex items-center gap-2">
+                    <img src="goldshield.png" alt="Retail Manager" class="h-10 w-10 inline-block align-middle" data-logo />
+                    <span class="block text-2xl font-semibold text-slate-300">Retail Manager</span>
+                </div>
             </div>
           </div>
 
