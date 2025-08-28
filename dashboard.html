@@ -1,21 +1,27 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RM – Dashboard</title>
+    <title>Merchant Haus – Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Lexend:wght@100;400&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
+    darkMode: 'class',
     theme: {
       extend: {
         fontFamily: {
-          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji'],
+          sans: ['Lexend', 'ui-sans-serif', 'system-ui'],
+          ubuntu: ['Ubuntu', 'sans-serif']
+        },
+        colors: {
+            brand: { 600:'#dc2743', 700:'#c21b35', 400:'#ef3c5b' },
+            'brand-green': '#6dffca'
         },
         keyframes: {
           gradientMove: {
@@ -29,7 +35,7 @@
           }
         },
         animation: {
-          'gradient-move': 'gradientMove 6s ease infinite',
+          'gradient-move': 'gradientMove 4s ease infinite',
           'fade-in-up': 'fadeInUp 300ms ease forwards',
         },
         boxShadow: {
@@ -45,91 +51,80 @@
     --brand-400: #ef3c5b;
     --brand-600: #dc2743;
     --brand-700: #c21b35;
-
-    --accent-yellow: #FFD700;
-    --accent-green: #39FF14;
-    --accent-cyan:   #08D9D6;
-    --accent-purple: #A020F0;
-    --accent-orange: #CC5500;
-
-    --bg-app: #f8fafc;
-    --text-main: #0f172a;
+    --brand-green: #6dffca;
   }
 
-  .gradient-text {
-    background: linear-gradient(90deg,
-      var(--accent-yellow),
-      var(--accent-green),
-      var(--accent-cyan),
-      var(--accent-purple),
-      var(--accent-orange)
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradientMove 6s ease infinite;
-  }
+  .grad-text {
+      display:inline-block;
+      background: linear-gradient(90deg,#c21b35,#ef3c5b,#c21b35);
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent; color:transparent;
+      animation: gradientMove 4s ease infinite;
+      background-size: 200% 100%;
+    }
 
-  .focus-ring:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--brand-400, #ef3c5b, 0.6);
-  }
+  .dark, .dark body { background-color: #1c1c1c !important; color: #f5f5f5 !important; }
+  .dark .bg-slate-950, .dark .bg-slate-900, .dark .bg-slate-800 { background-color:#1c1c1c !important; }
+  .dark .border-slate-800, .dark .border-slate-700 { border-color:#2a2a2a !important; }
+  .dark .text-slate-400, .dark .text-slate-300, .dark .text-slate-100 { color:#c8c8c8 !important; }
 
-  .brand-sheen {
-    background-image:
-      radial-gradient( at 20% 20%, rgba(255,255,255,0.12) 0px, transparent 30% ),
-      radial-gradient( at 80% 0%, rgba(255,255,255,0.08) 0px, transparent 40% );
-  }
+  .header-glass {
+      background-color: rgba(28, 28, 28, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
 </style>
 
     <style>
-      body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
+      body { font-family: Lexend, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
     </style>
   </head>
-  <body class="h-full bg-[var(--bg-app)] text-slate-900">
+  <body class="h-full text-slate-100">
     <div class="flex min-h-screen">
       <!-- Off-canvas for mobile -->
-      <div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-30 hidden"></div>
-      <aside id="sidebar" class="fixed z-40 inset-y-0 left-0 w-72 transform -translate-x-full md:translate-x-0 md:static md:z-auto bg-white border-r border-slate-200 transition-transform">
-        <div class="h-16 flex items-center gap-3 px-4 border-b">
-          <img src="./assets/brand.svg" alt="RM" class="h-6 w-6" data-logo />
-          <span class="text-lg font-semibold gradient-text">Retail Manager</span>
+      <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-30 hidden"></div>
+      <aside id="sidebar" class="fixed z-40 inset-y-0 left-0 w-72 transform -translate-x-full md:translate-x-0 md:static md:z-auto bg-[#1c1c1c] border-r border-[#2a2a2a] transition-transform">
+        <div class="h-16 flex items-center gap-3 px-4 border-b border-[#2a2a2a]">
+          <img src="2.png" alt="Merchant Haus" class="h-8 w-8" data-logo />
+          <div>
+            <span class="text-lg font-bold font-ubuntu grad-text">Merchant Haus</span>
+            <span class="block text-sm font-semibold text-slate-400">Retail Manager</span>
+          </div>
         </div>
         <nav class="p-4 space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-[var(--brand-700)] bg-[color:rgba(220,39,67,0.08)] border-l-4 border-[var(--brand-600)]">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-white bg-brand-600/20">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.5"></path><path d="M19 10v9a1 1 0 0 1-1 1h-4v-6H10v6H6a1 1 0 0 1-1-1v-9" stroke="currentColor" stroke-width="1.5"></path></svg>
             Dashboard
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="3" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect></svg>
             Inventory
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"></path></svg>
             Products
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M6 6h12l1 4H5l1-4Zm-1 4h14l-1.2 8.4a1 1 0 0 1-.99.86H7.19a1 1 0 0 1-.99-.86L5 10Zm6 3v3" stroke="currentColor" stroke-width="1.5"></path></svg>
             Sales / Orders
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M7 8a5 5 0 1 0 10 0A5 5 0 0 0 7 8Z" stroke="currentColor" stroke-width="1.5"></path><path d="M3 20a9 9 0 0 1 18 0" stroke="currentColor" stroke-width="1.5"></path></svg>
             Contacts
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"></path></svg>
             Transactions
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.5"></path></svg>
             Subscriptions
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h14M4 19h16M4 19l4-5 4 3 4-6 4 5" stroke="currentColor" stroke-width="1.5"></path></svg>
             Reports
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">
+          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"></path></svg>
             Settings
           </a>
@@ -138,49 +133,45 @@
 
       <div class="flex-1 flex flex-col min-w-0">
         <!-- Header -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6">
+        <header class="h-16 header-glass border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6">
           <div class="flex items-center gap-3">
-            <button id="hamburger" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-100" aria-label="Open menu">
+            <button id="hamburger" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-800" aria-label="Open menu">
               <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"></path></svg>
             </button>
-            <div class="hidden md:block text-sm text-slate-500">Dashboard</div>
+            <div class="hidden md:block text-sm text-slate-400">Dashboard</div>
           </div>
 
           <div class="flex items-center gap-3">
             <div class="relative hidden md:block">
-              <input type="search" placeholder="Search…" class="w-64 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-400)]" />
+              <input type="search" placeholder="Search…" class="w-64 rounded-md border border-slate-700 bg-slate-900/30 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400" />
               <svg class="h-4 w-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"></circle><path d="m20 20-3-3" stroke="currentColor" stroke-width="1.5"></path></svg>
             </div>
 
             <!-- Notifications -->
-            <button class="relative inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-100" aria-label="Notifications">
+            <button class="relative inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-800" aria-label="Notifications">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 0 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5" stroke="currentColor" stroke-width="1.5"></path><path d="M9 18a3 3 0 0 0 6 0" stroke="currentColor" stroke-width="1.5"></path></svg>
-              <span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-[var(--brand-600)]"></span>
+              <span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-brand-600"></span>
             </button>
 
             <!-- Profile menu -->
             <div class="relative">
-              <button id="profile-btn" class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-2.5 py-1.5 hover:bg-slate-50">
+              <button id="profile-btn" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/30 px-2.5 py-1.5 hover:bg-slate-800">
                 <img src="https://api.dicebear.com/9.x/thumbs/svg?seed=RM" alt="User" class="h-6 w-6 rounded-full">
                 <span class="hidden md:inline text-sm font-medium">Jane Doe</span>
-                <svg class="h-4 w-4 text-slate-500" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5"></path></svg>
+                <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5"></path></svg>
               </button>
-              <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-lg p-1">
-                <div class="px-3 py-2 text-sm text-slate-600">Signed in as <strong>Admin</strong></div>
-                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-50 text-sm">
+              <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#1c1c1c] border border-slate-800 rounded-md shadow-lg p-1">
+                <div class="px-3 py-2 text-sm text-slate-400">Signed in as <strong>Admin</strong></div>
+                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm">
                   <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-8 9a8 8 0 1 1 16 0H4Z" stroke="currentColor" stroke-width="1.5"></path></svg>
                   Profile
                 </a>
-                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-50 text-sm">
+                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm">
                   <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.5"></path></svg>
                   Settings
                 </a>
-                <div class="border-t my-1"></div>
-                <button onclick="setTheme(presets.default)" class="w-full text-left px-3 py-2 rounded hover:bg-slate-50 text-sm">Theme: Default</button>
-                <button onclick="setTheme(presets.emerald)" class="w-full text-left px-3 py-2 rounded hover:bg-slate-50 text-sm">Theme: Emerald</button>
-                <button onclick="setTheme(presets.indigo)" class="w-full text-left px-3 py-2 rounded hover:bg-slate-50 text-sm">Theme: Indigo</button>
-                <div class="border-t my-1"></div>
-                <a href="index.html" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-50 text-sm text-[var(--brand-700)]">
+                <div class="border-t my-1 border-slate-800"></div>
+                <a href="index.html" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm text-brand-400">
                   <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M15 3h6v6M9 21H3v-6M21 9l-7 7" stroke="currentColor" stroke-width="1.5"></path></svg>
                   Sign out
                 </a>
@@ -194,44 +185,44 @@
           <div class="flex items-end justify-between gap-4">
             <div>
               <h1 class="text-xl md:text-2xl font-semibold">Welcome back, Jane!</h1>
-              <p class="text-sm text-slate-600">Here’s your business at a glance today.</p>
+              <p class="text-sm text-slate-400">Here’s your business at a glance today.</p>
             </div>
             <div class="flex items-center gap-2">
-              <button class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50">Export CSV</button>
-              <button class="rounded-md bg-[var(--brand-600)] px-3 py-2 text-sm text-white hover:bg-[var(--brand-700)]">New Report</button>
+              <button class="rounded-md border border-slate-700 bg-slate-800/50 px-3 py-2 text-sm hover:bg-slate-800">Export CSV</button>
+              <button class="rounded-md bg-brand-600 px-3 py-2 text-sm text-white hover:bg-brand-700">New Report</button>
             </div>
           </div>
 
           <!-- KPI cards -->
           <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div class="bg-white rounded-lg shadow-soft p-4">
-              <div class="text-sm text-slate-500">Today’s Revenue</div>
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
+              <div class="text-sm text-slate-400">Today’s Revenue</div>
               <div class="mt-1 text-2xl font-semibold">R 5,200</div>
-              <div class="mt-1 text-xs text-slate-500">+8.1% vs yesterday</div>
+              <div class="mt-1 text-xs text-slate-400 text-emerald-400">+8.1% vs yesterday</div>
             </div>
-            <div class="bg-white rounded-lg shadow-soft p-4">
-              <div class="text-sm text-slate-500">Transactions</div>
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
+              <div class="text-sm text-slate-400">Transactions</div>
               <div class="mt-1 text-2xl font-semibold">164</div>
-              <div class="mt-1 text-xs text-slate-500">+12 new</div>
+              <div class="mt-1 text-xs text-slate-400">+12 new</div>
             </div>
-            <div class="bg-white rounded-lg shadow-soft p-4">
-              <div class="text-sm text-slate-500">Average Order Value</div>
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
+              <div class="text-sm text-slate-400">Average Order Value</div>
               <div class="mt-1 text-2xl font-semibold">R 317</div>
-              <div class="mt-1 text-xs text-slate-500">-1.9% vs last week</div>
+              <div class="mt-1 text-xs text-rose-400">-1.9% vs last week</div>
             </div>
-            <div class="bg-white rounded-lg shadow-soft p-4">
-              <div class="text-sm text-slate-500">Active Subscriptions</div>
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
+              <div class="text-sm text-slate-400">Active Subscriptions</div>
               <div class="mt-1 text-2xl font-semibold">1,028</div>
-              <div class="mt-1 text-xs text-slate-500"><span class="text-emerald-600">↑</span> 23 this week</div>
+              <div class="mt-1 text-xs text-slate-400"><span class="text-brand-green">↑</span> 23 this week</div>
             </div>
           </section>
 
           <!-- Charts -->
           <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
-            <div class="bg-white rounded-lg shadow-soft p-4 xl:col-span-2">
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4 xl:col-span-2">
               <div class="flex items-center justify-between">
                 <h3 class="font-semibold">Revenue — last 30 days</h3>
-                <select class="rounded-md border border-slate-300 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[var(--brand-400)]">
+                <select class="rounded-md border border-slate-700 bg-slate-900/30 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-brand-400">
                   <option>Last 30 days</option>
                   <option>Last 90 days</option>
                   <option>YTD</option>
@@ -239,22 +230,22 @@
               </div>
               <div class="h-64"><canvas id="revenueChart" class="mt-3"></canvas></div>
             </div>
-            <div class="bg-white rounded-lg shadow-soft p-4">
+            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
               <h3 class="font-semibold">Top Categories</h3>
               <div class="h-64"><canvas id="categoryChart" class="mt-3"></canvas></div>
             </div>
           </section>
 
           <!-- Table -->
-          <section class="bg-white rounded-lg shadow-soft p-4">
+          <section class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold">Recent Transactions</h3>
-              <a href="#" class="text-sm text-[var(--brand-600)] hover:text-[var(--brand-700)]">View all</a>
+              <a href="#" class="text-sm text-brand-400 hover:text-brand-600">View all</a>
             </div>
             <div class="mt-3 overflow-x-auto">
               <table class="min-w-full text-sm">
-                <thead class="text-left text-slate-500">
-                  <tr class="border-b">
+                <thead class="text-left text-slate-400">
+                  <tr class="border-b border-slate-800">
                     <th class="py-2 pr-4">Date</th>
                     <th class="py-2 pr-4">Customer</th>
                     <th class="py-2 pr-4">Amount</th>
@@ -262,13 +253,13 @@
                     <th class="py-2 pr-4">Txn ID</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-slate-800">
                   <tr>
                     <td class="py-2 pr-4 whitespace-nowrap">2025-08-20 10:14</td>
                     <td class="py-2 pr-4">Lerato M.</td>
                     <td class="py-2 pr-4 text-right">R 1,250.00</td>
                     <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 px-2 py-0.5">Paid</span>
+                      <span class="inline-flex items-center rounded-full bg-emerald-900/50 text-emerald-300 px-2 py-0.5">Paid</span>
                     </td>
                     <td class="py-2 pr-4 font-mono text-xs">TXN-9F21A</td>
                   </tr>
@@ -277,7 +268,7 @@
                     <td class="py-2 pr-4">A. Jacobs</td>
                     <td class="py-2 pr-4 text-right">R 349.00</td>
                     <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5">Pending</span>
+                      <span class="inline-flex items-center rounded-full bg-yellow-900/50 text-yellow-300 px-2 py-0.5">Pending</span>
                     </td>
                     <td class="py-2 pr-4 font-mono text-xs">TXN-9F20Q</td>
                   </tr>
@@ -286,7 +277,7 @@
                     <td class="py-2 pr-4">S. Naidoo</td>
                     <td class="py-2 pr-4 text-right">R 89.00</td>
                     <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-rose-100 text-rose-800 px-2 py-0.5">Failed</span>
+                      <span class="inline-flex items-center rounded-full bg-rose-900/50 text-rose-300 px-2 py-0.5">Failed</span>
                     </td>
                     <td class="py-2 pr-4 font-mono text-xs">TXN-9F1Z7</td>
                   </tr>
@@ -297,26 +288,6 @@
         </main>
       </div>
     </div>
-
-<script>
-  function setTheme({ brand400, brand600, brand700, logoUrl } = {}) {
-    const root = document.documentElement;
-    if (brand400) root.style.setProperty('--brand-400', brand400);
-    if (brand600) root.style.setProperty('--brand-600', brand600);
-    if (brand700) root.style.setProperty('--brand-700', brand700);
-    if (logoUrl)  {
-      const logos = document.querySelectorAll('[data-logo]');
-      logos.forEach(el => { el.src = logoUrl; el.alt = 'Client Logo'; });
-    }
-  }
-
-  const presets = {
-    default: { brand400: '#ef3c5b', brand600: '#dc2743', brand700: '#c21b35' },
-    emerald: { brand400: '#34d399', brand600: '#059669', brand700: '#047857' },
-    indigo:  { brand400: '#818cf8', brand600: '#4f46e5', brand700: '#4338ca' },
-    teal:    { brand400: '#5eead4', brand600: '#14b8a6', brand700: '#0f766e' },
-  };
-</script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -343,20 +314,13 @@
         }
       });
 
-      function brand() { 
-        const styles = getComputedStyle(document.documentElement);
-        return {
-          b400: styles.getPropertyValue('--brand-400').trim() || '#ef3c5b',
-          b600: styles.getPropertyValue('--brand-600').trim() || '#dc2743',
-          b700: styles.getPropertyValue('--brand-700').trim() || '#c21b35',
-        };
-      }
-
       const revCtx = document.getElementById('revenueChart')?.getContext('2d');
       const catCtx = document.getElementById('categoryChart')?.getContext('2d');
 
+      Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
+      Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
       if (revCtx) { 
-        const b = brand();
         new Chart(revCtx, {
           type: 'line',
           data: {
@@ -365,16 +329,16 @@
               {
                 label: 'Revenue',
                 data: Array.from({length: 30}, () => Math.round(200 + Math.random() * 300)),
-                borderColor: b.b600,
-                backgroundColor: b.b600 + '22',
+                borderColor: 'var(--brand-600)',
+                backgroundColor: 'rgba(220, 39, 67, 0.2)',
                 tension: 0.35,
                 fill: true,
               },
               {
                 label: 'Last period',
                 data: Array.from({length: 30}, () => Math.round(180 + Math.random() * 280)),
-                borderColor: '#08D9D6',
-                backgroundColor: '#08D9D622',
+                borderColor: 'var(--brand-green)',
+                backgroundColor: 'rgba(109, 255, 202, 0.1)',
                 tension: 0.35,
                 fill: false,
                 borderDash: [4,4]
@@ -386,7 +350,7 @@
             maintainAspectRatio: false,
             scales: {
               x: { grid: { display: false }},
-              y: { grid: { color: 'rgba(0,0,0,0.06)' }}
+              y: { grid: { color: 'rgba(255,255,255,0.06)' }}
             },
             plugins: {
               legend: { display: true, position: 'bottom' }
@@ -396,7 +360,6 @@
       }
 
       if (catCtx) {
-        const b = brand();
         new Chart(catCtx, {
           type: 'bar',
           data: {
@@ -404,7 +367,7 @@
             datasets: [{
               label: 'Sales',
               data: [32,45,28,22,14],
-              backgroundColor: [b.b600, '#08D9D6', '#A020F0', '#FFD700', '#CC5500']
+              backgroundColor: ['#dc2743', '#c21b35', '#ef3c5b', '#6dffca', '#a78bfa']
             }]
           },
           options: {
@@ -412,7 +375,7 @@
             maintainAspectRatio: false,
             scales: {
               x: { grid: { display: false }},
-              y: { grid: { color: 'rgba(0,0,0,0.06)' }}
+              y: { grid: { color: 'rgba(255,255,255,0.06)' }}
             },
             plugins: { legend: { display: false } }
           }
