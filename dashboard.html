@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Lexend:wght@100;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -16,8 +16,8 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['Lexend', 'ui-sans-serif', 'system-ui'],
-          ubuntu: ['Ubuntu', 'sans-serif']
+          sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          display: ['Merriweather', 'serif']
         },
         colors: {
             brand: { 600:'#dc2743', 700:'#c21b35', 400:'#ef3c5b' },
@@ -76,7 +76,7 @@
 </style>
 
     <style>
-      body { font-family: Lexend, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
+      body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
     </style>
   </head>
   <body class="h-full text-slate-100">
@@ -87,44 +87,44 @@
         <div class="h-16 flex items-center gap-3 px-4 border-b border-[#2a2a2a]">
           <img src="2.png" alt="Merchant Haus" class="h-8 w-8" data-logo />
           <div>
-            <span class="text-lg font-bold font-ubuntu grad-text">Merchant Haus</span>
+            <span class="text-lg font-bold font-display grad-text">Merchant Haus</span>
             <span class="block text-sm font-semibold text-slate-400">Retail Manager</span>
           </div>
         </div>
         <nav class="p-4 space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-white bg-brand-600/20">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-white bg-brand-600/20">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.5"></path><path d="M19 10v9a1 1 0 0 1-1 1h-4v-6H10v6H6a1 1 0 0 1-1-1v-9" stroke="currentColor" stroke-width="1.5"></path></svg>
             Dashboard
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="inventory.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="3" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect></svg>
             Inventory
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="products.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"></path></svg>
             Products
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="orders.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M6 6h12l1 4H5l1-4Zm-1 4h14l-1.2 8.4a1 1 0 0 1-.99.86H7.19a1 1 0 0 1-.99-.86L5 10Zm6 3v3" stroke="currentColor" stroke-width="1.5"></path></svg>
             Sales / Orders
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="contacts.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M7 8a5 5 0 1 0 10 0A5 5 0 0 0 7 8Z" stroke="currentColor" stroke-width="1.5"></path><path d="M3 20a9 9 0 0 1 18 0" stroke="currentColor" stroke-width="1.5"></path></svg>
             Contacts
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="transactions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"></path></svg>
             Transactions
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.5"></path></svg>
             Subscriptions
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h14M4 19h16M4 19l4-5 4 3 4-6 4 5" stroke="currentColor" stroke-width="1.5"></path></svg>
             Reports
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
+          <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"></path></svg>
             Settings
           </a>
@@ -289,233 +289,184 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    
     <script>
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('mobile-overlay');
-      const hamburger = document.getElementById('hamburger');
-      const profileBtn = document.getElementById('profile-btn');
-      const profileMenu = document.getElementById('profile-menu');
+      document.addEventListener('DOMContentLoaded', () => {
+        // Register plugins globally before any chart is created
+        if (window.Chart && window.ChartDataLabels) {
+          Chart.register(window.ChartDataLabels);
+        }
 
-      hamburger?.addEventListener('click', () => { 
-        sidebar.classList.toggle('-translate-x-full'); 
-        overlay.classList.toggle('hidden');
-      });
-      overlay?.addEventListener('click', () => { 
-        sidebar.classList.add('-translate-x-full'); 
-        overlay.classList.add('hidden');
-      });
-      profileBtn?.addEventListener('click', () => {
-        profileMenu.classList.toggle('hidden');
-      });
-      document.addEventListener('click', (e) => {
-        if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+        // === Animated gradient plugin ===
+        const gradientWave = {
+          id: 'gradientWave',
+          afterInit(chart, args, opts) {
+            if (!opts || opts.enable !== true) return;
+            let last = 0;
+            function loop(ts) {
+              if (chart._destroyed) return;
+              if (ts - last > 33) { // ~30 fps
+                chart.update('none');
+                last = ts;
+              }
+              chart._gwRaf = requestAnimationFrame(loop);
+            }
+            chart._gwRaf = requestAnimationFrame(loop);
+          },
+          beforeDatasetsDraw(chart, args, opts) {
+            if (!opts || opts.enable !== true) return;
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return;
+            const { top, bottom } = chartArea;
+            chart._waveT = ((chart._waveT ?? 0) + (opts.speed ?? 0.06)) % 1; 
+
+            const g = ctx.createLinearGradient(0, top, 0, bottom);
+            const o = chart._waveT;
+            g.addColorStop(Math.max(0, o - 0.28), 'rgba(220, 39, 67, 0.00)');
+            g.addColorStop(Math.max(0, o - 0.12), 'rgba(220, 39, 67, 0.20)');
+            g.addColorStop(o, 'rgba(220, 39, 67, 0.45)');
+            g.addColorStop(Math.min(1, o + 0.12), 'rgba(220, 39, 67, 0.20)');
+            g.addColorStop(Math.min(1, o + 0.28), 'rgba(220, 39, 67, 0.00)');
+
+            const ds = chart.data?.datasets?.[0];
+            if (ds && ds.type !== 'bar') {
+              ds.backgroundColor = g;
+              ds.tension = 0.4;
+              ds.borderWidth = 2;
+              ds.pointRadius = 0;
+              ds.pointHoverRadius = 4;
+            }
+          },
+          beforeDestroy(chart) {
+            if (chart._gwRaf) cancelAnimationFrame(chart._gwRaf);
+          }
+        };
+        if (window.Chart) Chart.register(gradientWave);
+
+        // Sidebar and Profile Menu Logic
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-overlay');
+        const hamburger = document.getElementById('hamburger');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileMenu = document.getElementById('profile-menu');
+
+        hamburger?.addEventListener('click', () => {
+          sidebar.classList.toggle('-translate-x-full');
+          overlay.classList.toggle('hidden');
+        });
+        overlay?.addEventListener('click', () => {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('hidden');
+        });
+        profileBtn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          profileMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => {
           profileMenu.classList.add('hidden');
+        });
+
+        // Chart Initialization
+        const revCtx = document.getElementById('revenueChart')?.getContext('2d');
+        const catCtx = document.getElementById('categoryChart')?.getContext('2d');
+        const USD_FMT = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+        Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
+        Chart.defaults.font.family = 'Inter';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
+        if (revCtx) {
+          new Chart(revCtx, {
+            type: 'line',
+            data: {
+              labels: Array.from({ length: 30 }, (_, i) => i + 1),
+              datasets: [
+                {
+                  label: 'Revenue',
+                  data: Array.from({ length: 30 }, () => Math.round(2000 + Math.random() * 3000)),
+                  borderColor: 'var(--brand-600)',
+                  tension: 0.35,
+                  fill: true,
+                },
+                {
+                  label: 'Last period',
+                  data: Array.from({ length: 30 }, () => Math.round(1800 + Math.random() * 2800)),
+                  borderColor: 'var(--brand-green)',
+                  backgroundColor: 'rgba(109, 255, 202, 0.1)',
+                  tension: 0.35,
+                  fill: false,
+                  borderDash: [4, 4]
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { grid: { display: false } },
+                y: { 
+                  grid: { color: 'rgba(255,255,255,0.06)' },
+                  ticks: { callback: (v) => USD_FMT.format(v) }
+                }
+              },
+              plugins: {
+                legend: { display: true, position: 'bottom' },
+                tooltip: { callbacks: { label: (ctx) => USD_FMT.format(ctx.parsed.y) } },
+                gradientWave: { enable: true, speed: 0.09 }
+              }
+            }
+          });
+        }
+
+        if (catCtx) {
+          new Chart(catCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Accessories', 'Apparel', 'Electronics', 'Home', 'Other'],
+              datasets: [{
+                label: 'Sales',
+                data: [3200, 4500, 2800, 2200, 1400],
+                backgroundColor: ['#dc2743', '#c21b35', '#ef3c5b', '#6dffca', '#a78bfa'],
+                borderRadius: 8,
+                barPercentage: 0.72,
+                categoryPercentage: 0.7,
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { grid: { display: false } },
+                y: { 
+                  grid: { color: 'rgba(255,255,255,0.06)' },
+                  ticks: { callback: (v) => USD_FMT.format(v) }
+                }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                      label: (ctx) => `${ctx.label}: ${USD_FMT.format(ctx.parsed.y ?? ctx.parsed)}`
+                    }
+                },
+                datalabels: {
+                  anchor: 'end',
+                  align: 'end',
+                  offset: 4,
+                  formatter: (value) => USD_FMT.format(value),
+                  font: { weight: '600', size: 11 },
+                  color: '#e5e7eb',
+                  clip: false
+                }
+              }
+            }
+          });
         }
       });
-
-      const revCtx = document.getElementById('revenueChart')?.getContext('2d');
-      const catCtx = document.getElementById('categoryChart')?.getContext('2d');
-
-      Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
-      Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
-
-      if (revCtx) { 
-        new Chart(revCtx, {
-          type: 'line',
-          data: {
-            labels: Array.from({length: 30}, (_, i) => i + 1),
-            datasets: [
-              {
-                label: 'Revenue',
-                data: Array.from({length: 30}, () => Math.round(200 + Math.random() * 300)),
-                borderColor: 'var(--brand-600)',
-                backgroundColor: 'rgba(220, 39, 67, 0.2)',
-                tension: 0.35,
-                fill: true,
-              },
-              {
-                label: 'Last period',
-                data: Array.from({length: 30}, () => Math.round(180 + Math.random() * 280)),
-                borderColor: 'var(--brand-green)',
-                backgroundColor: 'rgba(109, 255, 202, 0.1)',
-                tension: 0.35,
-                fill: false,
-                borderDash: [4,4]
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: { grid: { display: false }},
-              y: { grid: { color: 'rgba(255,255,255,0.06)' }}
-            },
-            plugins: {
-              legend: { display: true, position: 'bottom' }
-            }
-          }
-        });
-      }
-
-      if (catCtx) {
-        new Chart(catCtx, {
-          type: 'bar',
-          data: {
-            labels: ['Accessories','Apparel','Electronics','Home','Other'],
-            datasets: [{
-              label: 'Sales',
-              data: [32,45,28,22,14],
-              backgroundColor: ['#dc2743', '#c21b35', '#ef3c5b', '#6dffca', '#a78bfa']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: { grid: { display: false }},
-              y: { grid: { color: 'rgba(255,255,255,0.06)' }}
-            },
-            plugins: { legend: { display: false } }
-          }
-        });
-      }
     </script>
   
-<script>
-// === USD formatting ===
-const USD_FMT = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-
-// === Animated gradient plugin with stronger, more noticeable wave ===
-const gradientWave = {
-  id: 'gradientWave',
-  afterInit(chart, args, opts) {
-    if (!opts || opts.enable !== true) return;
-    // Kick off a rAF loop to re-render ~30fps
-    let last = 0;
-    function loop(ts) {
-      if (chart._destroyed) return;
-      if (ts - last > 33) { // ~30 fps
-        chart.update('none');
-        last = ts;
-      }
-      chart._gwRaf = requestAnimationFrame(loop);
-    }
-    chart._gwRaf = requestAnimationFrame(loop);
-  },
-  beforeDatasetsDraw(chart, args, opts) {
-    if (!opts || opts.enable !== true) return;
-    const { ctx, chartArea, data } = chart;
-    if (!chartArea) return;
-    const { top, bottom } = chartArea;
-    // Animate an offset [0..1]
-    chart._waveT = ((chart._waveT ?? 0) + (opts.speed ?? 0.06)) % 1; // faster by default
-
-    // Build a vertical gradient that pulses with a brighter band
-    const g = ctx.createLinearGradient(0, top, 0, bottom);
-    const o = chart._waveT;
-    // Wider, brighter core band + stronger transparency falloffs
-    g.addColorStop(Math.max(0, o - 0.28), 'rgba(220, 39, 67, 0.00)');
-    g.addColorStop(Math.max(0, o - 0.12), 'rgba(220, 39, 67, 0.20)');
-    g.addColorStop(o,                            'rgba(220, 39, 67, 0.45)');
-    g.addColorStop(Math.min(1, o + 0.12), 'rgba(220, 39, 67, 0.20)');
-    g.addColorStop(Math.min(1, o + 0.28), 'rgba(220, 39, 67, 0.00)');
-
-    const ds = chart.data?.datasets?.[0];
-    if (ds && ds.type !== 'bar') {
-      ds.backgroundColor = g;
-      ds.tension = 0.4;
-      ds.borderWidth = 2;
-      ds.pointRadius = 0;
-      ds.pointHoverRadius = 4;
-    }
-  },
-  beforeDestroy(chart) {
-    if (chart._gwRaf) cancelAnimationFrame(chart._gwRaf);
-  }
-};
-if (window.Chart && Chart.register) Chart.register(gradientWave);
-
-// Patch charts after the page's charts are created
-window.addEventListener('load', () => {
-  const revCanvas = document.getElementById('revenueChart');
-  const catCanvas = document.getElementById('categoryChart');
-  if (window.Chart && Chart.getChart) {
-    const revChart = revCanvas ? Chart.getChart(revCanvas) : null;
-    if (revChart) {
-      // USD axis + tooltip
-      revChart.options = revChart.options || {};
-      revChart.options.scales = revChart.options.scales || {};
-      revChart.options.scales.y = revChart.options.scales.y || {};
-      revChart.options.scales.y.ticks = Object.assign({}, revChart.options.scales.y.ticks, {
-        callback: (v) => USD_FMT.format(v)
-      });
-      revChart.options.plugins = Object.assign({}, revChart.options.plugins, {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => USD_FMT.format(ctx.parsed.y)
-          }
-        },
-        gradientWave: { enable: true, speed: 0.09 } // make the wave more noticeable
-      });
-      revChart.update();
-    }
-    const barChart = catCanvas ? Chart.getChart(catCanvas) : null;
-    if (barChart) {
-      // Optional: show item values as USD in tooltip for consistency
-      barChart.options = barChart.options || {};
-      barChart.options.plugins = Object.assign({}, barChart.options.plugins, {
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.label}: ${USD_FMT.format(ctx.parsed.y ?? ctx.parsed)}`
-          }
-        }
-      });
-      barChart.update();
-    }
-  }
-});
-</script>
-
-
-<script>
-// Register datalabels if available
-if (window.Chart && window.ChartDataLabels) {
-  Chart.register(window.ChartDataLabels);
-}
-
-window.addEventListener('load', () => {
-  const catCanvas = document.getElementById('categoryChart');
-  if (window.Chart && Chart.getChart && catCanvas) {
-    const barChart = Chart.getChart(catCanvas);
-    if (barChart) {
-      // Rounded bars & tighter category width
-      const ds = barChart.data?.datasets?.[0];
-      if (ds) {
-        ds.borderRadius = 8;
-        ds.barPercentage = 0.72;
-        ds.categoryPercentage = 0.7;
-      }
-      // Datala bels as USD on top of bars
-      if (!barChart.options) barChart.options = {};
-      if (!barChart.options.plugins) barChart.options.plugins = {};
-      barChart.options.plugins.datalabels = {
-        anchor: 'end',
-        align: 'end',
-        offset: 4,
-        formatter: (value) => USD_FMT.format(value),
-        font: { weight: '600', size: 11 },
-        color: '#e5e7eb', // near slate-200 for dark bg
-        clip: false
-      };
-      barChart.update();
-    }
-  }
-});
-</script>
-
 </body>
 </html>
+
