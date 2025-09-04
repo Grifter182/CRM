@@ -1,4 +1,4 @@
-# RM UI Starter (Login + Dashboard)
+# Haus Manager (Login + Dashboard)
 A minimal, contemporary CRM UI starter using **Tailwind CDN**, with:
 - Brand crimsons (defaults) and **white‑label theming** via CSS variables
 - Animated rainbow **gradient logotype**
