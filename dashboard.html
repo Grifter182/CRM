@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Merchant Haus – Dashboard</title>
+    <title>HausManager – Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Ubuntu:wght@600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -17,25 +17,21 @@
       extend: {
         fontFamily: {
           sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-          display: ['Merriweather', 'serif']
+          display: ['Ubuntu', 'sans-serif']
         },
         colors: {
-            brand: { 600:'#dc2743', 700:'#c21b35', 400:'#ef3c5b' },
-            'brand-green': '#6dffca'
+            brand: { 
+                crimson: '#DC143C',
+                'cyber-teal': '#00CEDB',
+            },
         },
         keyframes: {
-          gradientMove: {
-            '0%': { backgroundPosition: '0% 50%' },
-            '50%': { backgroundPosition: '100% 50%' },
-            '100%': { backgroundPosition: '0% 50%' },
-          },
           fadeInUp: {
             '0%': { opacity: '0', transform: 'translateY(6px)' },
             '100%': { opacity: '1', transform: 'translateY(0)' },
           }
         },
         animation: {
-          'gradient-move': 'gradientMove 4s ease infinite',
           'fade-in-up': 'fadeInUp 300ms ease forwards',
         },
         boxShadow: {
@@ -47,31 +43,57 @@
 </script>
 
 <style>
-  :root {
-    --brand-400: #ef3c5b;
-    --brand-600: #dc2743;
-    --brand-700: #c21b35;
-    --brand-green: #6dffca;
-  }
-
-  .grad-text {
-      display:inline-block;
-      background: linear-gradient(90deg,#c21b35,#ef3c5b,#c21b35);
-      -webkit-background-clip:text; background-clip:text;
-      -webkit-text-fill-color:transparent; color:transparent;
-      animation: gradientMove 4s ease infinite;
-      background-size: 200% 100%;
+    :root {
+        --bg-light: #F8F9FA;
+        --bg-dark: #1A1A1A;
+        --card-light: #FFFFFF;
+        --card-dark: #222222;
+        --border-light: #E5E7EB;
+        --border-dark: #333333;
+        --text-light-primary: #1A1A1A;
+        --text-dark-primary: #F8F9FA;
+        --text-light-secondary: #6B7280;
+        --text-dark-secondary: #A9A9A9;
     }
 
-  .dark, .dark body { background-color: #1c1c1c !important; color: #f5f5f5 !important; }
-  .dark .bg-slate-950, .dark .bg-slate-900, .dark .bg-slate-800 { background-color:#1c1c1c !important; }
-  .dark .border-slate-800, .dark .border-slate-700 { border-color:#2a2a2a !important; }
-  .dark .text-slate-400, .dark .text-slate-300, .dark .text-slate-100 { color:#c8c8c8 !important; }
+    /* Light Theme */
+    body {
+        background-color: var(--bg-light);
+        color: var(--text-light-primary);
+    }
+    .bg-card { background-color: var(--card-light); }
+    .border-card { border-color: var(--border-light); }
+    .text-primary { color: var(--text-light-primary); }
+    .text-secondary { color: var(--text-light-secondary); }
+    .header-glass {
+        background-color: rgba(248, 249, 250, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .sidebar-bg { background-color: var(--card-light); }
 
-  .header-glass {
-      background-color: rgba(28, 28, 28, 0.8);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+
+    /* Dark Theme */
+    .dark body {
+        background-color: var(--bg-dark);
+        color: var(--text-dark-primary);
+    }
+    .dark .bg-card { background-color: var(--card-dark); }
+    .dark .border-card { border-color: var(--border-dark); }
+    .dark .text-primary { color: var(--text-dark-primary); }
+    .dark .text-secondary { color: var(--text-dark-secondary); }
+    .dark .header-glass {
+        background-color: rgba(26, 26, 26, 0.8);
+    }
+    .dark .sidebar-bg { background-color: #1c1c1c; }
+
+
+    .sortable-ghost {
+        opacity: 0.4;
+        background-color: #2e2e2e;
+    }
+    .drag-handle {
+        cursor: move;
     }
 </style>
 
@@ -79,100 +101,109 @@
       body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
     </style>
   </head>
-  <body class="h-full text-slate-100">
+  <body class="">
     <div class="flex min-h-screen">
-      <!-- Off-canvas for mobile -->
-      <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-30 hidden"></div>
-      <aside id="sidebar" class="fixed z-40 inset-y-0 left-0 w-72 transform -translate-x-full md:translate-x-0 md:static md:z-auto bg-[#1c1c1c] border-r border-[#2a2a2a] transition-transform">
-        <div class="h-16 flex items-center gap-3 px-4 border-b border-[#2a2a2a]">
-          <img src="2.png" alt="Merchant Haus" class="h-8 w-8" data-logo />
-          <div>
-            <span class="text-lg font-bold font-display grad-text">Merchant Haus</span>
-            <span class="block text-sm font-semibold text-slate-400">Retail Manager</span>
-          </div>
+      <!-- Pop-out Menu -->
+       <div id="popout-menu" class="hidden fixed z-30 bg-card border border-card rounded-lg shadow-lg w-72 transition-all duration-300 ease-in-out">
+            <div class="flex items-center justify-between p-2 border-b border-card menu-drag-handle cursor-move">
+                <h3 class="font-semibold text-sm text-primary pl-2">Menu</h3>
+                <button id="close-menu-btn" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10">
+                   <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <nav class="p-2 space-y-1">
+              <a href="inventory.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="3" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect></svg>
+                Inventory
+              </a>
+              <a href="products.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Products
+              </a>
+              <a href="orders.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M6 6h12l1 4H5l1-4Zm-1 4h14l-1.2 8.4a1 1 0 0 1-.99.86H7.19a1 1 0 0 1-.99-.86L5 10Zm6 3v3" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Sales / Orders
+              </a>
+              <a href="contacts.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M7 8a5 5 0 1 0 10 0A5 5 0 0 0 7 8Z" stroke="currentColor" stroke-width="1.5"></path><path d="M3 20a9 9 0 0 1 18 0" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Contacts
+              </a>
+              <a href="transactions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Transactions
+              </a>
+              <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Subscriptions
+              </a>
+              <a href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h14M4 19h16M4 19l4-5 4 3 4-6 4 5" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Reports
+              </a>
+              <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-secondary hover:bg-brand-cyber-teal/10 hover:text-brand-cyber-teal">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"></path></svg>
+                Settings
+              </a>
+            </nav>
         </div>
-        <nav class="p-4 space-y-1">
-          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-white bg-brand-600/20">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="1.5"></path><path d="M19 10v9a1 1 0 0 1-1 1h-4v-6H10v6H6a1 1 0 0 1-1-1v-9" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Dashboard
-          </a>
-          <a href="inventory.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="3" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect></svg>
-            Inventory
-          </a>
-          <a href="products.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Products
-          </a>
-          <a href="orders.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M6 6h12l1 4H5l1-4Zm-1 4h14l-1.2 8.4a1 1 0 0 1-.99.86H7.19a1 1 0 0 1-.99-.86L5 10Zm6 3v3" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Sales / Orders
-          </a>
-          <a href="contacts.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M7 8a5 5 0 1 0 10 0A5 5 0 0 0 7 8Z" stroke="currentColor" stroke-width="1.5"></path><path d="M3 20a9 9 0 0 1 18 0" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Contacts
-          </a>
-          <a href="transactions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Transactions
-          </a>
-          <a href="subscriptions.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Subscriptions
-          </a>
-          <a href="reports.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h14M4 19h16M4 19l4-5 4 3 4-6 4 5" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Reports
-          </a>
-          <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800 hover:text-white">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"></path></svg>
-            Settings
-          </a>
-        </nav>
-      </aside>
 
       <div class="flex-1 flex flex-col min-w-0">
         <!-- Header -->
-        <header class="h-16 header-glass border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6">
+        <header id="main-header" class="h-16 sticky top-0 z-20 header-glass border-b border-card flex items-center justify-between px-4 md:px-6">
           <div class="flex items-center gap-3">
-            <button id="hamburger" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-800" aria-label="Open menu">
-              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"></path></svg>
-            </button>
-            <div class="hidden md:block text-sm text-slate-400">Dashboard</div>
+             <svg class="hidden sm:block" width="200" height="40" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                  <linearGradient id="animatedGradient" gradientUnits="userSpaceOnUse" x1="120" y1="0" x2="420" y2="0">
+                      <stop offset="0%" stop-color="#DC143C" />
+                      <stop offset="45%" stop-color="#DC143C">
+                          <animate attributeName="stop-color" values="#DC143C; #FFC0CB; #DC143C" keyTimes="0; 0.5; 1" dur="5s" begin="1.5s" fill="freeze" repeatCount="1"/>
+                      </stop>
+                      <stop offset="50%" stop-color="#DC143C">
+                          <animate attributeName="stop-color" values="#DC143C; #FFFFFF; #DC143C" keyTimes="0; 0.5; 1" dur="5s" begin="1.5s" fill="freeze" repeatCount="1"/>
+                      </stop>
+                      <stop offset="55%" stop-color="#DC143C">
+                          <animate attributeName="stop-color" values="#DC143C; #FFC0CB; #DC143C" keyTimes="0; 0.5; 1" dur="5s" begin="1.5s" fill="freeze" repeatCount="1"/>
+                      </stop>
+                      <stop offset="100%" stop-color="#DC143C" />
+                      <animateTransform attributeName="transform" type="translate" from="-450 0" to="450 0" dur="5s" begin="1.5s" fill="freeze" repeatCount="1"/>
+                  </linearGradient>
+                  <style>
+                      g.hausmanager-text text { font-family: 'Ubuntu', sans-serif; font-size: 50px; font-weight: 600; }
+                      .tagline-text { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 500; fill: #A9A9A9; text-anchor: middle; letter-spacing: 4px; }
+                  </style>
+              </defs>
+              <image href="2.png" x="10" y="10" height="80" width="80" />
+              <g class="hausmanager-text" shape-rendering="geometricPrecision" text-rendering="optimizeLegibility" fill="url(#animatedGradient)">
+                  <text y="25" x="120" opacity="0">H<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.0s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.0s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="150" opacity="0">a<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.1s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.1s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="175" opacity="0">u<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.2s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.2s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="195" opacity="0">s<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.3s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.3s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="225" opacity="0">M<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.4s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.4s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="265" opacity="0">a<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.5s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.5s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="290" opacity="0">n<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.6s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.6s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="315" opacity="0">a<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.7s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.7s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="340" opacity="0">g<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.8s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.8s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="365" opacity="0">e<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.9s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="0.9s" fill="freeze" calcMode="discrete"/></text>
+                  <text y="25" x="385" opacity="0">r<animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="1.0s" fill="freeze"/><animate attributeName="y" from="25" to="45" dur="0.2s" begin="1.0s" fill="freeze" calcMode="discrete"/></text>
+              </g>
+              <line x1="170" x2="390" y1="68" y2="68" stroke="#00CEDB" stroke-width="2" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="1s" begin="1.5s" fill="freeze" /></line>
+              <text x="280" y="88" class="tagline-text" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="1s" begin="2s" fill="freeze" />plug. play. grow.</text>
+            </svg>
           </div>
-
-          <div class="flex items-center gap-3">
-            <div class="relative hidden md:block">
-              <input type="search" placeholder="Search…" class="w-64 rounded-md border border-slate-700 bg-slate-900/30 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400" />
-              <svg class="h-4 w-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"></circle><path d="m20 20-3-3" stroke="currentColor" stroke-width="1.5"></path></svg>
-            </div>
-
-            <!-- Notifications -->
-            <button class="relative inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-slate-800" aria-label="Notifications">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 0 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5" stroke="currentColor" stroke-width="1.5"></path><path d="M9 18a3 3 0 0 0 6 0" stroke="currentColor" stroke-width="1.5"></path></svg>
-              <span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-brand-600"></span>
-            </button>
-
-            <!-- Profile menu -->
-            <div class="relative">
-              <button id="profile-btn" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/30 px-2.5 py-1.5 hover:bg-slate-800">
-                <img src="https://api.dicebear.com/9.x/thumbs/svg?seed=RM" alt="User" class="h-6 w-6 rounded-full">
-                <span class="hidden md:inline text-sm font-medium">Jane Doe</span>
-                <svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5"></path></svg>
+          <div class="flex items-center gap-4">
+              <button id="theme-toggle" class="inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-black/5 dark:hover:bg-white/5">
+                <svg id="theme-icon-light" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="theme-icon-dark" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
               </button>
-              <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#1c1c1c] border border-slate-800 rounded-md shadow-lg p-1">
-                <div class="px-3 py-2 text-sm text-slate-400">Signed in as <strong>Admin</strong></div>
-                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm">
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-8 9a8 8 0 1 1 16 0H4Z" stroke="currentColor" stroke-width="1.5"></path></svg>
-                  Profile
-                </a>
-                <a href="#" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm">
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.5"></path></svg>
-                  Settings
-                </a>
-                <div class="border-t my-1 border-slate-800"></div>
-                <a href="index.html" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-800 text-sm text-brand-400">
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M15 3h6v6M9 21H3v-6M21 9l-7 7" stroke="currentColor" stroke-width="1.5"></path></svg>
+            <div class="relative">
+              <button id="profile-btn" class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-slate-700 text-slate-200 font-bold">
+                JD
+              </button>
+              <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 bg-card border border-card rounded-md shadow-lg p-1">
+                <div class="px-3 py-2 text-sm text-secondary">Signed in as <strong>Jane Doe</strong></div>
+                <div class="border-t my-1 border-card"></div>
+                <a href="index.html" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-black/5 dark:hover:bg-white/5 text-sm text-brand-crimson">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H3v-6m-2-4l7-7 7 7m8 2v6h-6"></path><path d="M21 3h-6v6"></path></svg>
                   Sign out
                 </a>
               </div>
@@ -181,292 +212,445 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-1 p-4 md:p-6 space-y-6">
-          <div class="flex items-end justify-between gap-4">
-            <div>
-              <h1 class="text-xl md:text-2xl font-semibold">Welcome back, Jane!</h1>
-              <p class="text-sm text-slate-400">Here’s your business at a glance today.</p>
+        <main class="flex-1 p-4 md:p-6 space-y-6" id="dashboard-main">
+            <div data-id="title" class="text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-primary">HausManager</h1>
+                <p class="text-sm text-secondary">Your business at a glance</p>
             </div>
-            <div class="flex items-center gap-2">
-              <button class="rounded-md border border-slate-700 bg-slate-800/50 px-3 py-2 text-sm hover:bg-slate-800">Export CSV</button>
-              <button class="rounded-md bg-brand-600 px-3 py-2 text-sm text-white hover:bg-brand-700">New Report</button>
-            </div>
-          </div>
 
-          <!-- KPI cards -->
-          <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-              <div class="text-sm text-slate-400">Today’s Revenue</div>
-              <div class="mt-1 text-2xl font-semibold">$ 5,200</div>
-              <div class="mt-1 text-xs text-slate-400 text-emerald-400">+8.1% vs yesterday</div>
-            </div>
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-              <div class="text-sm text-slate-400">Transactions</div>
-              <div class="mt-1 text-2xl font-semibold">164</div>
-              <div class="mt-1 text-xs text-slate-400">+12 new</div>
-            </div>
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-              <div class="text-sm text-slate-400">Average Order Value</div>
-              <div class="mt-1 text-2xl font-semibold">$ 317</div>
-              <div class="mt-1 text-xs text-rose-400">-1.9% vs last week</div>
-            </div>
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-              <div class="text-sm text-slate-400">Active Subscriptions</div>
-              <div class="mt-1 text-2xl font-semibold">1,028</div>
-              <div class="mt-1 text-xs text-slate-400"><span class="text-brand-green">↑</span> 23 this week</div>
-            </div>
-          </section>
+            <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6" id="kpi-grid" data-id="kpi-cards">
+                <div class="bg-card border border-card rounded-lg p-4 flex items-center justify-between" data-id="kpi-sales">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary">
+                            <span>April Net Sales</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </div>
+                        <div class="mt-1 text-2xl font-bold text-primary">$124.0K</div>
+                    </div>
+                    <div class="bg-blue-500/10 text-blue-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.002 3.002 0 015.288 0M12 14a4 4 0 100-8 4 4 0 000 8z" /></svg></div>
+                </div>
+                <div class="bg-card border border-card rounded-lg p-4 flex items-center justify-between" data-id="kpi-transactions">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary">
+                            <span>April Transactions</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </div>
+                        <div class="mt-1 text-2xl font-bold text-primary">63</div>
+                    </div>
+                    <div class="bg-green-500/10 text-green-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M4 12h16M4 20h16" /></svg></div>
+                </div>
+                <div class="bg-card border border-card rounded-lg p-4 flex items-center justify-between" data-id="kpi-avg-value">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary">
+                            <span>Avg. Transaction Value</span>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </div>
+                        <div class="mt-1 text-2xl font-bold text-primary">$2,108</div>
+                    </div>
+                    <div class="bg-orange-500/10 text-orange-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+                </div>
+                <div class="bg-card border border-card rounded-lg p-4 flex items-center justify-between" data-id="kpi-refunds">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary">
+                           <span>Refunds (April)</span>
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </div>
+                        <div class="mt-1 text-2xl font-bold text-primary">10</div>
+                    </div>
+                    <div class="bg-pink-500/10 text-pink-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg></div>
+                </div>
+            </section>
 
-          <!-- Charts -->
-          <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4 xl:col-span-2">
-              <div class="flex items-center justify-between">
-                <h3 class="font-semibold">Revenue — last 30 days</h3>
-                <select class="rounded-md border border-slate-700 bg-slate-900/30 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-brand-400">
-                  <option>Last 30 days</option>
-                  <option>Last 90 days</option>
-                  <option>YTD</option>
-                </select>
-              </div>
-              <div class="h-64"><canvas id="revenueChart" class="mt-3"></canvas></div>
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6" id="nav-grid" data-id="nav-cards">
+                <a href="orders.html" class="bg-card border border-card rounded-lg p-6 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="nav-sales">
+                    <div class="flex items-center justify-between">
+                        <div class="bg-indigo-500/10 text-indigo-500 p-2 rounded-md inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 0V6m0 12v-2" /><path d="M12 18a6 6 0 000-12v0a6 6 0 00-6 6h12a6 6 0 00-6-6" /></svg></div>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mt-4 text-primary">Sales</h3>
+                    <p class="text-sm text-secondary">Orders - Invoices - Subscriptions</p>
+                </a>
+                <a href="transactions.html" class="bg-card border border-card rounded-lg p-6 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="nav-processing">
+                     <div class="flex items-center justify-between">
+                        <div class="bg-purple-500/10 text-purple-500 p-2 rounded-md inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg></div>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mt-4 text-primary">Payment Processing</h3>
+                    <p class="text-sm text-secondary">Virtual Terminal - Subscriptions - Invoices</p>
+                </a>
+                <a href="#" class="bg-card border border-card rounded-lg p-6 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="nav-payouts">
+                     <div class="flex items-center justify-between">
+                        <div class="bg-green-500/10 text-green-500 p-2 rounded-md inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg></div>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </div>
+                    <h3 class="font-bold text-lg mt-4 text-primary">Payouts</h3>
+                    <p class="text-sm text-secondary">Residuals - Reconciliation</p>
+                </a>
+            </section>
+          
+            <div data-id="quick-access-title">
+                <h2 class="text-xl font-bold pt-6 text-primary">Quick Access</h2>
             </div>
-            <div class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-              <h3 class="font-semibold">Top Categories</h3>
-              <div class="h-64"><canvas id="categoryChart" class="mt-3"></canvas></div>
-            </div>
-          </section>
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="quick-access-grid" data-id="quick-access-cards">
+                <a href="inventory.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-inventory">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-cyan-500/10 text-cyan-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="4" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="3" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect><rect x="14" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5"></rect></svg></div>
+                        <h3 class="font-semibold text-primary">Inventory</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+                <a href="products.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-products">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-cyan-500/10 text-cyan-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"></path></svg></div>
+                        <h3 class="font-semibold text-primary">Products</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+                <a href="contacts.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-contacts">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-cyan-500/10 text-cyan-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><path d="M7 8a5 5 0 1 0 10 0A5 5 0 0 0 7 8Z" stroke="currentColor" stroke-width="1.5"></path><path d="M3 20a9 9 0 0 1 18 0" stroke="currentColor" stroke-width="1.5"></path></svg></div>
+                        <h3 class="font-semibold text-primary">Contacts</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+                <a href="transactions.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-transactions">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-amber-500/10 text-amber-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"></path></svg></div>
+                        <h3 class="font-semibold text-primary">Transactions</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+                <a href="subscriptions.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-subscriptions">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-amber-500/10 text-amber-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"></rect><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.5"></path></svg></div>
+                        <h3 class="font-semibold text-primary">Subscriptions</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+                <a href="settings.html" class="bg-card border border-card rounded-lg p-4 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/5 transition-colors" data-id="qa-settings">
+                     <div class="flex items-center gap-4">
+                        <div class="bg-slate-500/10 text-slate-500 p-2 rounded-md inline-block"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"></path></svg></div>
+                        <h3 class="font-semibold text-primary">Settings</h3>
+                    </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </a>
+            </section>
 
-          <!-- Table -->
-          <section class="bg-slate-900/40 border border-slate-800 rounded-lg p-4">
-            <div class="flex items-center justify-between">
-              <h3 class="font-semibold">Recent Transactions</h3>
-              <a href="#" class="text-sm text-brand-400 hover:text-brand-600">View all</a>
-            </div>
-            <div class="mt-3 overflow-x-auto">
-              <table class="min-w-full text-sm">
-                <thead class="text-left text-slate-400">
-                  <tr class="border-b border-slate-800">
-                    <th class="py-2 pr-4">Date</th>
-                    <th class="py-2 pr-4">Customer</th>
-                    <th class="py-2 pr-4">Amount</th>
-                    <th class="py-2 pr-4">Status</th>
-                    <th class="py-2 pr-4">Txn ID</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-800">
-                  <tr>
-                    <td class="py-2 pr-4 whitespace-nowrap">2025-08-20 10:14</td>
-                    <td class="py-2 pr-4">Lerato M.</td>
-                    <td class="py-2 pr-4 text-right">$ 1,250.00</td>
-                    <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-emerald-900/50 text-emerald-300 px-2 py-0.5">Paid</span>
-                    </td>
-                    <td class="py-2 pr-4 font-mono text-xs">TXN-9F21A</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 pr-4 whitespace-nowrap">2025-08-20 09:52</td>
-                    <td class="py-2 pr-4">A. Jacobs</td>
-                    <td class="py-2 pr-4 text-right">$ 349.00</td>
-                    <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-yellow-900/50 text-yellow-300 px-2 py-0.5">Pending</span>
-                    </td>
-                    <td class="py-2 pr-4 font-mono text-xs">TXN-9F20Q</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 pr-4 whitespace-nowrap">2025-08-20 09:33</td>
-                    <td class="py-2 pr-4">S. Naidoo</td>
-                    <td class="py-2 pr-4 text-right">$ 89.00</td>
-                    <td class="py-2 pr-4">
-                      <span class="inline-flex items-center rounded-full bg-rose-900/50 text-rose-300 px-2 py-0.5">Failed</span>
-                    </td>
-                    <td class="py-2 pr-4 font-mono text-xs">TXN-9F1Z7</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+            <section class="bg-card border border-card rounded-lg p-4 mt-6" data-id="chart-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-semibold text-primary">Revenue — Weekly Comparison</h3>
+                    <div class="flex items-center gap-4">
+                        <a href="reports.html" class="text-sm text-brand-crimson hover:opacity-80 font-semibold">Reports Menu &rarr;</a>
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 drag-handle text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </div>
+                </div>
+                <div class="h-64"><canvas id="revenueChart"></canvas></div>
+            </section>
+
         </main>
       </div>
     </div>
-
+    
+    <!-- Floating Menu Button -->
+    <button id="hamburger" class="fixed z-40 h-14 w-14 bg-brand-crimson text-white rounded-full shadow-lg flex items-center justify-center hover:bg-brand-crimson/90 transition-transform hover:scale-110">
+        <svg class="h-7 w-7 pointer-events-none" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2"></path></svg>
+    </button>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Register plugins globally before any chart is created
-        if (window.Chart && window.ChartDataLabels) {
-          Chart.register(window.ChartDataLabels);
-        }
+        // --- THEME TOGGLE ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIconLight = document.getElementById('theme-icon-light');
+        const themeIconDark = document.getElementById('theme-icon-dark');
+        const html = document.documentElement;
 
-        // === Animated gradient plugin ===
-        const gradientWave = {
-          id: 'gradientWave',
-          afterInit(chart, args, opts) {
-            if (!opts || opts.enable !== true) return;
-            let last = 0;
-            function loop(ts) {
-              if (chart._destroyed) return;
-              if (ts - last > 33) { // ~30 fps
-                chart.update('none');
-                last = ts;
-              }
-              chart._gwRaf = requestAnimationFrame(loop);
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                themeIconLight.classList.remove('hidden');
+                themeIconDark.classList.add('hidden');
+            } else {
+                html.classList.remove('dark');
+                themeIconLight.classList.add('hidden');
+                themeIconDark.classList.remove('hidden');
             }
-            chart._gwRaf = requestAnimationFrame(loop);
-          },
-          beforeDatasetsDraw(chart, args, opts) {
-            if (!opts || opts.enable !== true) return;
-            const { ctx, chartArea } = chart;
-            if (!chartArea) return;
-            const { top, bottom } = chartArea;
-            chart._waveT = ((chart._waveT ?? 0) + (opts.speed ?? 0.06)) % 1; 
-
-            const g = ctx.createLinearGradient(0, top, 0, bottom);
-            const o = chart._waveT;
-            g.addColorStop(Math.max(0, o - 0.28), 'rgba(220, 39, 67, 0.00)');
-            g.addColorStop(Math.max(0, o - 0.12), 'rgba(220, 39, 67, 0.20)');
-            g.addColorStop(o, 'rgba(220, 39, 67, 0.45)');
-            g.addColorStop(Math.min(1, o + 0.12), 'rgba(220, 39, 67, 0.20)');
-            g.addColorStop(Math.min(1, o + 0.28), 'rgba(220, 39, 67, 0.00)');
-
-            const ds = chart.data?.datasets?.[0];
-            if (ds && ds.type !== 'bar') {
-              ds.backgroundColor = g;
-              ds.tension = 0.4;
-              ds.borderWidth = 2;
-              ds.pointRadius = 0;
-              ds.pointHoverRadius = 4;
-            }
-          },
-          beforeDestroy(chart) {
-            if (chart._gwRaf) cancelAnimationFrame(chart._gwRaf);
-          }
         };
-        if (window.Chart) Chart.register(gradientWave);
 
-        // Sidebar and Profile Menu Logic
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobile-overlay');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = html.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+            if(window.revenueChartInstance) {
+                window.revenueChartInstance.destroy();
+                initChart();
+            }
+        });
+
+
+        // --- POPOUT MENU LOGIC ---
         const hamburger = document.getElementById('hamburger');
+        const popoutMenu = document.getElementById('popout-menu');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const menuDragHandle = popoutMenu.querySelector('.menu-drag-handle');
+        const header = document.getElementById('main-header');
+        
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            popoutMenu.classList.toggle('hidden');
+        });
+        closeMenuBtn.addEventListener('click', () => popoutMenu.classList.add('hidden'));
+        document.addEventListener('click', (e) => {
+            if (!popoutMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                popoutMenu.classList.add('hidden');
+            }
+        });
+
+        // --- DRAGGABLE & SNAPPABLE MENU ---
+        let isDraggingMenu = false;
+        let menuOffsetX, menuOffsetY;
+
+        const setComponentPositions = (corner) => {
+            // Snap Menu
+            popoutMenu.style.top = 'auto';
+            popoutMenu.style.left = 'auto';
+            popoutMenu.style.bottom = 'auto';
+            popoutMenu.style.right = 'auto';
+            const headerHeight = header.offsetHeight;
+            switch(corner) {
+                case 'top-left':
+                    popoutMenu.style.top = `${headerHeight + 16}px`;
+                    popoutMenu.style.left = '1rem';
+                    break;
+                case 'top-right':
+                    popoutMenu.style.top = `${headerHeight + 16}px`;
+                    popoutMenu.style.right = '1rem';
+                    break;
+                case 'bottom-left':
+                    popoutMenu.style.bottom = '1rem';
+                    popoutMenu.style.left = '1rem';
+                    break;
+                case 'bottom-right':
+                    popoutMenu.style.bottom = '1rem';
+                    popoutMenu.style.right = '1rem';
+                    break;
+            }
+
+            // Snap Hamburger Button to the same corner
+            hamburger.style.top = 'auto';
+            hamburger.style.left = 'auto';
+            hamburger.style.bottom = 'auto';
+            hamburger.style.right = 'auto';
+            switch(corner) {
+                case 'top-left':
+                    hamburger.style.top = '1.5rem';
+                    hamburger.style.left = '1.5rem';
+                    break;
+                case 'top-right':
+                    hamburger.style.top = '1.5rem';
+                    hamburger.style.right = '1.5rem';
+                    break;
+                case 'bottom-left':
+                    hamburger.style.bottom = '1.5rem';
+                    hamburger.style.left = '1.5rem';
+                    break;
+                case 'bottom-right':
+                    hamburger.style.bottom = '1.5rem';
+                    hamburger.style.right = '1.5rem';
+                    break;
+            }
+            localStorage.setItem('uiCorner', corner);
+        }
+        
+        const savedCorner = localStorage.getItem('uiCorner') || 'bottom-right';
+        setComponentPositions(savedCorner);
+        
+        menuDragHandle.addEventListener('mousedown', (e) => {
+            isDraggingMenu = true;
+            menuOffsetX = e.clientX - popoutMenu.getBoundingClientRect().left;
+            menuOffsetY = e.clientY - popoutMenu.getBoundingClientRect().top;
+            popoutMenu.style.transition = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingMenu) return;
+            popoutMenu.style.left = `${e.clientX - menuOffsetX}px`;
+            popoutMenu.style.top = `${e.clientY - menuOffsetY}px`;
+            popoutMenu.style.right = 'auto';
+            popoutMenu.style.bottom = 'auto';
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (!isDraggingMenu) return;
+            isDraggingMenu = false;
+            popoutMenu.style.transition = 'all 0.3s ease-in-out';
+
+            const rect = popoutMenu.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const isTop = centerY < window.innerHeight / 2;
+            const isLeft = centerX < window.innerWidth / 2;
+
+            if (isTop && isLeft) setComponentPositions('top-left');
+            else if (isTop && !isLeft) setComponentPositions('top-right');
+            else if (!isTop && isLeft) setComponentPositions('bottom-left');
+            else setComponentPositions('bottom-right');
+        });
+
+
+        // --- PROFILE MENU ---
         const profileBtn = document.getElementById('profile-btn');
         const profileMenu = document.getElementById('profile-menu');
-
-        hamburger?.addEventListener('click', () => {
-          sidebar.classList.toggle('-translate-x-full');
-          overlay.classList.toggle('hidden');
-        });
-        overlay?.addEventListener('click', () => {
-          sidebar.classList.add('-translate-x-full');
-          overlay.classList.add('hidden');
-        });
         profileBtn?.addEventListener('click', (e) => {
           e.stopPropagation();
           profileMenu.classList.toggle('hidden');
         });
         document.addEventListener('click', () => {
-          profileMenu.classList.add('hidden');
+          if (profileMenu && !profileMenu.classList.contains('hidden')) {
+            profileMenu.classList.add('hidden');
+          }
         });
 
-        // Chart Initialization
-        const revCtx = document.getElementById('revenueChart')?.getContext('2d');
-        const catCtx = document.getElementById('categoryChart')?.getContext('2d');
-        const USD_FMT = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+        // --- DRAGGABLE DASHBOARD CARDS ---
+        const mainContainer = document.getElementById('dashboard-main');
+        const sortableGrids = [
+            document.getElementById('kpi-grid'), 
+            document.getElementById('nav-grid'), 
+            document.getElementById('quick-access-grid')
+        ];
 
-        Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
-        Chart.defaults.font.family = 'Inter';
-        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
-
-        if (revCtx) {
-          new Chart(revCtx, {
-            type: 'line',
-            data: {
-              labels: Array.from({ length: 30 }, (_, i) => i + 1),
-              datasets: [
-                {
-                  label: 'Revenue',
-                  data: Array.from({ length: 30 }, () => Math.round(2000 + Math.random() * 3000)),
-                  borderColor: 'var(--brand-600)',
-                  tension: 0.35,
-                  fill: true,
-                },
-                {
-                  label: 'Last period',
-                  data: Array.from({ length: 30 }, () => Math.round(1800 + Math.random() * 2800)),
-                  borderColor: 'var(--brand-green)',
-                  backgroundColor: 'rgba(109, 255, 202, 0.1)',
-                  tension: 0.35,
-                  fill: false,
-                  borderDash: [4, 4]
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                x: { grid: { display: false } },
-                y: { 
-                  grid: { color: 'rgba(255,255,255,0.06)' },
-                  ticks: { callback: (v) => USD_FMT.format(v) }
-                }
-              },
-              plugins: {
-                legend: { display: true, position: 'bottom' },
-                tooltip: { callbacks: { label: (ctx) => USD_FMT.format(ctx.parsed.y) } },
-                gradientWave: { enable: true, speed: 0.09 }
-              }
-            }
-          });
-        }
-
-        if (catCtx) {
-          new Chart(catCtx, {
-            type: 'bar',
-            data: {
-              labels: ['Accessories', 'Apparel', 'Electronics', 'Home', 'Other'],
-              datasets: [{
-                label: 'Sales',
-                data: [3200, 4500, 2800, 2200, 1400],
-                backgroundColor: ['#dc2743', '#c21b35', '#ef3c5b', '#6dffca', '#a78bfa'],
-                borderRadius: 8,
-                barPercentage: 0.72,
-                categoryPercentage: 0.7,
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                x: { grid: { display: false } },
-                y: { 
-                  grid: { color: 'rgba(255,255,255,0.06)' },
-                  ticks: { callback: (v) => USD_FMT.format(v) }
-                }
-              },
-              plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                      label: (ctx) => `${ctx.label}: ${USD_FMT.format(ctx.parsed.y ?? ctx.parsed)}`
+        const saveOrder = () => {
+            const layout = Array.from(mainContainer.children)
+                .map(el => el.dataset.id)
+                .filter(id => id);
+            localStorage.setItem('dashboardLayout', JSON.stringify(layout));
+        };
+        
+        const loadOrder = () => {
+            const savedLayout = JSON.parse(localStorage.getItem('dashboardLayout'));
+            if (savedLayout) {
+                savedLayout.forEach(id => {
+                    const el = mainContainer.querySelector(`[data-id="${id}"]`);
+                    if (el) {
+                        const parentSection = el.closest('section[data-id], div[data-id]');
+                        if(parentSection) {
+                             mainContainer.appendChild(parentSection);
+                        } else {
+                            mainContainer.appendChild(el);
+                        }
                     }
-                },
-                datalabels: {
-                  anchor: 'end',
-                  align: 'end',
-                  offset: 4,
-                  formatter: (value) => USD_FMT.format(value),
-                  font: { weight: '600', size: 11 },
-                  color: '#e5e7eb',
-                  clip: false
-                }
-              }
+                });
             }
-          });
-        }
+        };
+
+        new Sortable(mainContainer, {
+            animation: 150,
+            handle: '.drag-handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: saveOrder
+        });
+
+        sortableGrids.forEach(grid => {
+            if(grid) {
+                new Sortable(grid, {
+                    group: 'shared',
+                    animation: 150,
+                    handle: '.drag-handle',
+                    ghostClass: 'sortable-ghost',
+                });
+            }
+        });
+
+        loadOrder();
+
+        // --- CHART INITIALIZATION ---
+        const initChart = () => {
+            if (window.Chart) {
+                const isDarkMode = document.documentElement.classList.contains('dark');
+                const textColor = isDarkMode ? 'rgba(248, 249, 250, 0.7)' : 'rgba(26, 26, 26, 0.7)';
+                const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)';
+
+                Chart.defaults.color = textColor;
+                Chart.defaults.font.family = 'Inter';
+                
+                const revCtx = document.getElementById('revenueChart')?.getContext('2d');
+                const USD_FMT = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+                const lastWeekData = [9756.96, 3890.87, 11720.97, 6834.19, 8725.80, 21334.45, 8303.39];
+                const thisWeekData = [5917.62, 9556.64, 4960.22, 4180.71, 3890.54, 18544.30, 4752.62];
+
+                if (revCtx) {
+                    const gradient = revCtx.createLinearGradient(0, 0, 0, 250);
+                    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+                    gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+                    
+                    window.revenueChartInstance = new Chart(revCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                        datasets: [
+                        {
+                            label: 'This Week (Apr)',
+                            data: thisWeekData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: gradient,
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#3b82f6',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 2
+                        },
+                        {
+                            label: 'Last Week (Mar)',
+                            data: lastWeekData,
+                            borderColor: isDarkMode ? 'rgba(107, 114, 128, 0.7)' : 'rgba(107, 114, 128, 0.5)',
+                            tension: 0.4,
+                            fill: false,
+                            borderDash: [5, 5],
+                            borderWidth: 1.5,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: isDarkMode ? 'rgba(107, 114, 128, 0.7)' : 'rgba(107, 114, 128, 0.5)',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 2
+                        }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                        x: { grid: { display: false } },
+                        y: { 
+                            grid: { color: gridColor },
+                            ticks: { 
+                                stepSize: 2000,
+                                callback: (v) => USD_FMT.format(v) 
+                            },
+                            max: 22000
+                        }
+                        },
+                        plugins: {
+                        legend: { display: true, position: 'bottom' },
+                        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${USD_FMT.format(ctx.parsed.y)}` } },
+                        }
+                    }
+                    });
+                }
+            }
+        };
+        initChart();
       });
     </script>
   
 </body>
 </html>
-
