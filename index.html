@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Lexend:wght@100;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Lexend:wght@100;400&family=Major+Mono+Display&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,7 +17,8 @@
           extend: {
             fontFamily: {
               sans: ['Lexend', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', 'Helvetica Neue', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
-              display: ['Ubuntu', 'system-ui', 'sans-serif']
+              display: ['Ubuntu', 'system-ui', 'sans-serif'],
+              mono: ['"Major Mono Display"', 'monospace']
             },
             colors: {
               brand: {
@@ -47,7 +48,7 @@
         --brand-400: #ef3c5b;
         --brand-600: #dc2743;
         --brand-700: #c21b35;
-        --mint: #6dffca;
+        --mint: '#6dffca';
       }
       body { font-family: Lexend, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
 
@@ -93,7 +94,19 @@
   </head>
   <body class="h-full bg-slate-950 text-slate-100 relative overflow-hidden">
     <div class="page-bg absolute inset-0"></div>
-    <main class="relative z-10 min-h-screen flex items-center justify-center p-6">
+
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+      
+      <!-- Sparkle Hero Section -->
+      <div class="h-64 relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
+        <div class="w-full absolute inset-0 h-full">
+          <div id="tsparticles" class="w-full h-full"></div>
+        </div>
+        <h1 class="md:text-7xl text-5xl lg:text-6xl font-mono text-center text-white relative z-20">
+          HausManager
+        </h1>
+      </div>
+
       <div class="w-full max-w-md">
         <div class="glow-wrap">
           <div class="card shadow-glow">
@@ -114,7 +127,7 @@
                 <label class="flex items-center gap-2 text-sm text-slate-400">
                   <input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-brand-600 focus:ring-brand-600"> Remember me
                 </label>
-                <a href="#" class="text-sm text-slate-300 hover:text-white underline/20">Forgot password?</a>
+                <a href="#" class="text-sm text-slate-300 hover:text-white">Forgot password?</a>
               </div>
               <button class="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 hover:bg-brand-700 px-4 py-3 font-medium text-white transition-colors">
                 Continue
@@ -134,17 +147,19 @@
                 <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
               </div>
               <div class="flex items-center justify-between">
-                <button type="button" id="back-btn" class="text-sm text-slate-300 hover:text-white underline/20">Back</button>
+                <button type="button" id="back-btn" class="text-sm text-slate-300 hover:text-white">Back</button>
                 <button class="inline-flex items-center justify-center rounded-xl bg-brand-600 hover:bg-brand-700 px-4 py-2 font-medium text-white">Verify & Sign in</button>
               </div>
             </form>
           </div>
         </div>
         <p class="mt-6 text-center text-xs text-slate-500">
-          By signing in you agree to the <a class="underline/20 hover:text-slate-300" href="#">Terms</a> and <a class="underline/20 hover:text-slate-300" href="#">Privacy Policy</a>.
+          By signing in you agree to the <a class="hover:text-slate-300" href="#">Terms</a> and <a class="hover:text-slate-300" href="#">Privacy Policy</a>.
         </p>
       </div>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3/tsparticles.slim.bundle.min.js"></script>
     <script>
       const step1 = document.getElementById('auth-step-1');
       const step2 = document.getElementById('auth-step-2');
@@ -152,6 +167,42 @@
       step1.addEventListener('submit', (e) => { e.preventDefault(); step1.classList.add('hidden'); step2.classList.remove('hidden'); step2.removeAttribute('aria-hidden'); });
       backBtn.addEventListener('click', () => { step2.classList.add('hidden'); step1.classList.remove('hidden'); });
       step2.addEventListener('submit', (e) => { e.preventDefault(); window.location.href = 'dashboard.html'; });
+
+      // Init Sparkles
+      (async () => {
+        await tsParticles.load({
+          id: "tsparticles",
+          options: {
+            background: {
+              color: { value: "transparent" },
+            },
+            fpsLimit: 120,
+            particles: {
+              number: {
+                value: 100,
+                density: { enable: true, value_area: 800 },
+              },
+              color: { value: "#ffffff" },
+              shape: { type: "circle" },
+              opacity: {
+                value: { min: 0.1, max: 0.5 },
+                animation: { enable: true, speed: 1, sync: false },
+              },
+              size: {
+                value: { min: 0.6, max: 1.4 },
+              },
+              move: {
+                enable: true,
+                speed: 0.5,
+                direction: "none",
+                straight: false,
+              },
+            },
+            detectRetina: true,
+          },
+        });
+      })();
     </script>
   </body>
 </html>
+
