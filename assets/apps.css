@@ -1,0 +1,48 @@
+/* Merchant House unified theme (v1) */
+:root{
+  --mh-bg: #0b0e14;
+  --mh-card: #121826;
+  --mh-card-2: #0f172a;
+  --mh-text: #e5e7eb;
+  --mh-muted: #9ca3af;
+  --mh-brand-500: #ef3c5b;
+  --mh-brand-600: #dc2743;
+  --mh-brand-700: #c21b35;
+  --mh-accent: #6dffca;
+  --mh-border: #1f2937;
+}
+*{font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+html.dark, body.dark{background:var(--mh-bg); color:var(--mh-text)}
+.mh-card{background:var(--mh-card); border:1px solid var(--mh-border); border-radius:16px}
+.mh-card-2{background:var(--mh-card-2); border:1px solid var(--mh-border); border-radius:16px}
+.mh-brand{color:var(--mh-brand-500)}
+.mh-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.625rem .9rem;border-radius:.75rem;background:linear-gradient(90deg,var(--mh-brand-600),var(--mh-brand-500));color:white;font-weight:600}
+.mh-btn:disabled{opacity:.6}
+.mh-input{background-color:#0b1220;border:1px solid var(--mh-border);border-radius:.75rem;padding:.625rem .8rem;color:var(--mh-text);width:100%}
+.mh-kbd{border:1px solid var(--mh-border);padding:.1rem .4rem;border-radius:.375rem;background:#0b1220;color:#cbd5e1}
+.mh-container{max-width:1200px;margin:0 auto;padding:1rem 1.25rem}
+.mh-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:1rem}
+.mh-card h3{font-weight:700}
+
+/* Centralized from HTML files */
+.grad-text {
+  display:inline-block;
+  background: linear-gradient(90deg, var(--mh-brand-700), var(--mh-brand-500), var(--mh-brand-700));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  animation: gradientMove 4s ease infinite;
+  background-size: 200% 100%;
+}
+.header-glass {
+  background-color: rgba(11, 14, 20, 0.8); /* Matched to --mh-bg */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* active nav link */
+a[data-nav].active{background-color: rgba(220,39,67,0.18)!important; color:white!important}
+/* subtle fixes for Tailwind dark overrides across pages */
+.dark .text-slate-300{color:#cbd5e1!important}
+.dark .bg-slate-900{background:#0b1220!important}
+.dark .bg-slate-800{background:#0e1525!important}
+.dark .border-slate-800{border-color:#1f2937!important}
