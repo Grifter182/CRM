@@ -1,249 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MerchantHaus — OS‑style CRM</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --brand-red: #ef3c5b;
-      --brand-green: #6dffca;
-      --ink: #f5f5f5;
-      --muted: #b3b3b3;
-      --bg-surface: rgba(255, 255, 255, .06);
-      --border-color: rgba(255, 255, 255, .12);
-      --shadow-color: rgba(0,0,0,.5);
-    }
-    html, body {
-      height: 100%;
-    }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--ink);
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+<!doctype html>
+<html lang="en" class="h-full dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merchant Haus – Sign In</title>
 
-    /* Background */
-    .bg { position: fixed; inset: 0; z-index: -2; background-image: url("background.webp"); background-position: center; background-size: cover; }
-    .veil { position: fixed; inset: 0; z-index: -1; background: radial-gradient(1200px 800px at 60% 35%, rgba(0,0,0,.25), rgba(0,0,0,.65)), linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)); }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&family=Lexend:wght@100;400&family=Major+Mono+Display&display=swap" rel="stylesheet">
 
-    /* Header */
-    header { position: fixed; left: 0; right: 0; top: 0; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(0,0,0,.35); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-color); z-index: 50; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .logo { width: 24px; height: 24px; }
-    .title {
-      font-family: "Major Mono Display", monospace;
-      letter-spacing: 1px;
-      font-size: 18px;
-      color: #FFFFFF;
-      line-height: 1;
-    }
-    .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); background: var(--bg-surface); color: #fff; padding: 8px 10px; border-radius: 10px; cursor: pointer; transition: background-color 0.2s; }
-    .btn:hover { background: rgba(255,255,255,.1); }
-    .btn:active { transform: translateY(1px); }
-
-    /* Desktop & App Icons */
-    main { position: relative; height: 100dvh; padding-top: 56px; overflow: hidden; }
-    .dock { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 20px; }
-    .app-icon { min-height: 120px; border-radius: 16px; background: var(--bg-surface); border: 1px solid var(--border-color); box-shadow: 0 8px 30px var(--shadow-color); padding: 14px 14px 16px; transition: transform 0.2s, box-shadow 0.2s; }
-    .app-icon:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow-color); }
-    .app-icon h2 { margin: 0 0 8px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--brand-green); }
-    .app-icon p { margin: 0 0 10px; color: #eaeaea; font-size: 13px; line-height: 1.35; }
-    .cta { display: inline-block; margin-top: 12px; padding: 8px 12px; border-radius: 10px; border: none; background: var(--brand-red); color: #111; font-weight: 700; cursor: pointer; }
-    .cta:active { transform: translateY(1px); }
-
-    /* Windows */
-    .window {
-        display: none;
-        position: absolute;
-        width: 800px;
-        max-width: 90vw;
-        min-height: 300px;
-        border-radius: 16px;
-        background: rgba(15, 15, 15, 0.7);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 12px 50px rgba(0,0,0,.6);
-        backdrop-filter: blur(12px);
-        user-select: none;
-        resize: both;
-        overflow: hidden;
-    }
-    .window-header { height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: rgba(255,255,255,.05); cursor: grab; }
-    .window-header:active { cursor: grabbing; }
-    .window-title { font-weight: 600; font-size: 14px; }
-    .window-controls { display: flex; gap: 6px; }
-    .window-btn { width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer; }
-    .close-btn { background-color: #ff5f56; }
-    .window-content { padding: 20px; height: calc(100% - 40px); overflow-y: auto; }
-
-    /* Content Styling */
-    .content-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .content-table th, .content-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
-    .content-table thead th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-    .status-pill { display: inline-block; padding: 4px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; }
-    .status-active { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .status-due { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-    .status-failed { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-    .form-group label { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block; }
-    .form-input { background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--ink); width: 100%; box-sizing: border-box; }
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
-    .stat-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; }
-    .stat-label { font-size: 13px; color: var(--muted); }
-    .stat-value { font-size: 24px; font-weight: 600; margin-top: 4px; }
-    
-    /* Toast */
-    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(100%); opacity: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(6px); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; color: #fff; transition: all .3s cubic-bezier(0.215, 0.610, 0.355, 1); z-index: 1000; }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  </style>
-</head>
-<body>
-  <div class="bg"></div>
-  <div class="veil"></div>
-
-  <header>
-    <div class="brand">
-      <img src="CRMlogo.png" alt="Haus Manager Logo" class="logo">
-      <div class="title">Haus Manager</div>
-    </div>
-    <div style="display:flex; gap:8px; align-items:center">
-      <button id="toggleMute" class="btn" title="Mute/Unmute">🔊 Sound On</button>
-      <button id="openSearch" class="btn" title="Search (⌘/Ctrl+K)">Search</button>
-    </div>
-  </header>
-
-  <main id="desktop">
-    <!-- App Icons / Dock -->
-    <div class="dock">
-      <section class="app-icon">
-        <h2>Reports</h2>
-        <p>Key metrics, revenue, and performance overview.</p>
-        <button class="cta" data-action="open:reports">Open</button>
-      </section>
-      <section class="app-icon">
-        <h2>Subscriptions</h2>
-        <p>View and manage recurring customer subscriptions and plans.</p>
-        <button class="cta" data-action="open:subscriptions">Open</button>
-      </section>
-      <section class="app-icon">
-        <h2>Transactions</h2>
-        <p>Browse payment history, search, and export reports.</p>
-        <button class="cta" data-action="open:transactions">Open</button>
-      </section>
-       <section class="app-icon">
-        <h2>Settings</h2>
-        <p>Configure your profile, branding, and billing information.</p>
-        <button class="cta" data-action="open:settings">Open</button>
-      </section>
-    </div>
-
-    <!-- Hidden Windows -->
-    <div id="window-reports" class="window" style="top: 80px; left: 350px; width: 700px;">
-      <div class="window-header"><span class="window-title">Reports</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:reports"></button></div></div>
-      <div class="window-content">
-        <h3 style="margin-top:0;">Overview</h3>
-        <div class="stat-grid">
-            <div class="stat-card"><div class="stat-label">Gross Revenue</div><div class="stat-value">$152,310</div></div>
-            <div class="stat-card"><div class="stat-label">Net Revenue</div><div class="stat-value">$138,940</div></div>
-            <div class="stat-card"><div class="stat-label">AOV</div><div class="stat-value">$317</div></div>
-            <div class="stat-card"><div class="stat-label">Refund Rate</div><div class="stat-value">0.8%</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="window-subscriptions" class="window" style="top: 120px; left: 400px;">
-      <div class="window-header"><span class="window-title">Subscriptions</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:subscriptions"></button></div></div>
-      <div class="window-content">
-        <h3 style="margin-top:0;">Subscription Plans</h3>
-        <table class="content-table">
-            <thead><tr><th>Plan</th><th>Customer</th><th>Start</th><th>Next Billing</th><th>Status</th><th style="text-align: right;">Amount</th></tr></thead>
-            <tbody>
-              <tr><td>Standard</td><td>Lerato M.</td><td>2025-06-01</td><td>2025-09-01</td><td><span class="status-pill status-active">Active</span></td><td style="text-align: right;">$349.00</td></tr>
-              <tr><td>Pro</td><td>Andre J.</td><td>2025-05-12</td><td>2025-09-12</td><td><span class="status-pill status-due">Past due</span></td><td style="text-align: right;">$899.00</td></tr>
-            </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="window-transactions" class="window" style="top: 160px; left: 450px;">
-      <div class="window-header"><span class="window-title">Transactions</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:transactions"></button></div></div>
-      <div class="window-content">
-         <h3 style="margin-top:0;">All Transactions</h3>
-         <table class="content-table">
-          <thead><tr><th>Date</th><th>Customer</th><th style="text-align: right;">Amount</th><th>Payment</th><th>Status</th><th>Txn ID</th></tr></thead>
-          <tbody>
-            <tr><td>2025-08-20 10:14</td><td>Lerato M.</td><td style="text-align: right;">$1,250.00</td><td>Card</td><td><span class="status-pill status-active">Paid</span></td><td>TXN-9F21A</td></tr>
-            <tr><td>2025-08-20 09:52</td><td>A. Jacobs</td><td style="text-align: right;">$899.00</td><td>EFT</td><td><span class="status-pill status-due">Pending</span></td><td>TXN-9F219</td></tr>
-            <tr><td>2025-08-20 09:33</td><td>S. Naidoo</td><td style="text-align: right;">$89.00</td><td>Card</td><td><span class="status-pill status-failed">Failed</span></td><td>TXN-9F1Z7</td></tr>
-          </tbody>
-         </table>
-      </div>
-    </div>
-
-    <div id="window-settings" class="window" style="top: 200px; left: 500px;">
-      <div class="window-header"><span class="window-title">Settings</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:settings"></button></div></div>
-      <div class="window-content">
-        <h3 style="margin-top:0;">Profile</h3>
-        <div class="form-grid">
-            <div class="form-group"><label>Full name</label><input type="text" class="form-input" placeholder="Jane Doe"></div>
-            <div class="form-group"><label>Email</label><input type="email" class="form-input" placeholder="jane.doe@example.com"></div>
-            <div class="form-group"><label>Phone</label><input type="tel" class="form-input"></div>
-            <div class="form-group"><label>Company</label><input type="text" class="form-input"></div>
-        </div>
-        <button class="cta" style="margin-top:20px">Save Profile</button>
-        <hr style="border-color: var(--border-color); margin: 24px 0; border-style: solid; border-width: 1px 0 0 0;">
-        <h3 style="margin-top:0;">Billing</h3>
-        <div class="form-grid">
-            <div class="form-group"><label>Cardholder name</label><input type="text" class="form-input"></div>
-            <div class="form-group"><label>Card number</label><input type="text" class="form-input"></div>
-            <div class="form-group"><label>Expiry (MM/YY)</label><input type="text" class="form-input"></div>
-            <div class="form-group"><label>CVC</label><input type="text" class="form-input"></div>
-        </div>
-        <button class="cta" style="margin-top:20px">Update Payment</button>
-      </div>
-    </div>
-  </main>
-  
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    // ---- Audio ----
-    let audioReady = false, muted = false, startupSoundPlayed = false;
-    let clickSfx = null, popSfx = null, startupSfx = null;
-    const muteButton = document.getElementById('toggleMute');
-
-    function initAudio() {
-      if (audioReady) {
-        // Play startup sound if it hasn't been played yet
-        if (!startupSoundPlayed && startupSfx) {
-            playSfx(startupSfx);
-            startupSoundPlayed = true;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Lexend', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', 'Helvetica Neue', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'sans-serif'],
+              display: ['Ubuntu', 'system-ui', 'sans-serif'],
+              mono: ['"Major Mono Display"', 'monospace']
+            },
+            colors: {
+              brand: {
+                50:  '#fff0f2',
+                100: '#ffd9df',
+                200: '#ffb3c0',
+                300: '#ff8ea1',
+                400: '#ef3c5b',
+                500: '#e52b4c',
+                600: '#dc2743',
+                700: '#c21b35',
+                800: '#981329',
+                900: '#5e0a19'
+              },
+              mint: '#6dffca'
+            },
+            boxShadow: {
+              'glow': '0 10px 40px rgba(220,39,67,.35)'
+            }
+          }
         }
-        return;
       }
-      audioReady = true;
-      try {
-        clickSfx = new Audio('click.mp3');
-        popSfx = new Audio('pop.mp3');
-        startupSfx = new Audio('startup.mp3');
-        [clickSfx, popSfx, startupSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
-        
-        // Play startup sound on first initialization
-        if (!startupSoundPlayed) {
-            playSfx(startupSfx);
-            startupSoundPlayed = true;
-        }
+    </script>
 
-      } catch (e) { console.error("Could not initialize audio:", e); }
-    }
-    function playSfx(sfx) { if (!muted && sfx) { try { sfx.currentTime = 0; sfx.play().catch(e => {}); } catch (e) {} } }
+    <style>
+      :root {
+        --brand-400: #ef3c5b;
+        --brand-600: #dc2743;
+        --brand-700: #c21b35;
+        --mint: '#6dffca';
+      }
+      body { font-family: Lexend, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif; }
 
-    // ---- Toast ----
-    const toast = document.getElementById('toast');
-// ... existing code ... -->
+      .page-bg::before {
+        content: '';
+        position: absolute;
+        inset: -20vmax;
+        background:
+          radial-gradient(60vmax 60vmax at 15% 25%, rgba(220,39,67,.25), transparent 60%),
+          radial-gradient(60vmax 60vmax at 85% 30%, rgba(109,255,202,.20), transparent 60%),
+          radial-gradient(70vmax 70vmax at 50% 85%, rgba(226,232,240,.08), transparent 60%);
+        filter: blur(40px);
+        animation: drift 18s linear infinite;
+        z-index: 0;
+      }
+      @keyframes drift {
+        0%   { transform: translate3d(0,0,0) rotate(0deg); }
+        50%  { transform: translate3d(1.8%, -1.2%, 0) rotate(180deg); }
+        100% { transform: translate3d(0,0,0) rotate(360deg); }
+      }
+
+      @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+      .glow-wrap {
+        position: relative; padding: 2px; border-radius: 18px;
+        background: conic-gradient(from var(--angle),
+          rgba(220,39,67,.95), rgba(220,39,67,.35) 18%, rgba(109,255,202,.95) 35%,
+          rgba(220,39,67,.35) 52%, rgba(239,60,91,.95) 70%, rgba(109,255,202,.45) 86%,
+          rgba(220,39,67,.95));
+        animation: spin 6s linear infinite;
+        box-shadow: 0 0 0 1px rgba(255,255,255,.03), 0 15px 60px rgba(220,39,67,.25);
+      }
+      @keyframes spin { to { --angle: 360deg; } }
+      .glow-wrap > .card {
+        border-radius: 16px;
+        background: rgba(22,22,22,.86);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .brand-underline { height:3px; background:linear-gradient(90deg, var(--brand-600), var(--mint)); filter:saturate(120%); border-radius:9999px; box-shadow:0 0 18px rgba(220,39,67,.45); position:relative; overflow:hidden; }
+      .brand-underline::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); transform:translateX(-100%); animation:sweep 2.8s ease-in-out infinite; }
+      @keyframes sweep { 0%{transform:translateX(-100%)} 60%{transform:translateX(100%)} 100%{transform:translateX(100%)} }
+    </style>
+  </head>
+  <body class="h-full bg-slate-950 text-slate-100 relative overflow-hidden">
+    <div class="page-bg absolute inset-0"></div>
+
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+      
+      <!-- Sparkle Hero Section -->
+      <div class="h-64 relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
+        <div class="w-full absolute inset-0 h-full">
+          <div id="tsparticles" class="w-full h-full"></div>
+        </div>
+        <h1 class="md:text-7xl text-5xl lg:text-6xl font-mono text-center text-white relative z-20">
+          HausManager
+        </h1>
+      </div>
+
+      <div class="w-full max-w-md">
+        <div class="glow-wrap">
+          <div class="card shadow-glow">
+            <div class="px-7 pt-7 pb-4">
+              <h1 class="font-display text-2xl tracking-tight">Merchant <span class="text-brand-400">Haus</span></h1>
+              <div class="brand-underline mt-3"></div>
+            </div>
+            <form id="auth-step-1" class="px-7 pb-7 space-y-4">
+              <div class="space-y-1.5">
+                <label for="email" class="text-sm text-slate-300">Email</label>
+                <input id="email" type="email" required autocomplete="username" class="w-full rounded-xl bg-slate-900 border border-slate-800 px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent" placeholder="you@example.com">
+              </div>
+              <div class="space-y-1.5">
+                <label for="password" class="text-sm text-slate-300">Password</label>
+                <input id="password" type="password" required autocomplete="current-password" class="w-full rounded-xl bg-slate-900 border border-slate-800 px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent" placeholder="••••••••">
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <label class="flex items-center gap-2 text-sm text-slate-400">
+                  <input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-brand-600 focus:ring-brand-600"> Remember me
+                </label>
+                <a href="#" class="text-sm text-slate-300 hover:text-white">Forgot password?</a>
+              </div>
+              <button class="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 hover:bg-brand-700 px-4 py-3 font-medium text-white transition-colors">
+                Continue
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                </svg>
+              </button>
+            </form>
+            <form id="auth-step-2" class="px-7 pb-7 space-y-4 hidden" aria-hidden="true">
+              <p class="text-slate-300">Enter the 6-digit code we sent to <span class="text-white font-medium">your email</span>.</p>
+              <div class="grid grid-cols-6 gap-2">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+                <input inputmode="numeric" maxlength="1" class="h-12 text-center rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600">
+              </div>
+              <div class="flex items-center justify-between">
+                <button type="button" id="back-btn" class="text-sm text-slate-300 hover:text-white">Back</button>
+                <button class="inline-flex items-center justify-center rounded-xl bg-brand-600 hover:bg-brand-700 px-4 py-2 font-medium text-white">Verify & Sign in</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <p class="mt-6 text-center text-xs text-slate-500">
+          By signing in you agree to the <a class="hover:text-slate-300" href="#">Terms</a> and <a class="hover:text-slate-300" href="#">Privacy Policy</a>.
+        </p>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3/tsparticles.slim.bundle.min.js"></script>
+    <script>
+      const step1 = document.getElementById('auth-step-1');
+      const step2 = document.getElementById('auth-step-2');
+      const backBtn = document.getElementById('back-btn');
+      step1.addEventListener('submit', (e) => { e.preventDefault(); step1.classList.add('hidden'); step2.classList.remove('hidden'); step2.removeAttribute('aria-hidden'); });
+      backBtn.addEventListener('click', () => { step2.classList.add('hidden'); step1.classList.remove('hidden'); });
+      step2.addEventListener('submit', (e) => { e.preventDefault(); window.location.href = 'dashboard.html'; });
+
+      // Init Sparkles
+      (async () => {
+        await tsParticles.load({
+          id: "tsparticles",
+          options: {
+            background: {
+              color: { value: "transparent" },
+            },
+            fpsLimit: 120,
+            particles: {
+              number: {
+                value: 100, // This is the density
+                density: {
+                  enable: true,
+                  area: 800,
+                },
+              },
+              color: { value: "#ffffff" },
+              shape: { type: "circle" },
+              opacity: {
+                value: { min: 0.1, max: 0.5 },
+              },
+              size: {
+                value: { min: 0.6, max: 1.4 },
+              },
+              move: {
+                enable: true,
+                speed: 0.5,
+                direction: "none",
+                random: true,
+                straight: false,
+                outModes: {
+                  default: "out",
+                },
+              },
+            },
+            interactivity: {
+              events: {
+                onHover: {
+                  enable: false,
+                },
+                onClick: {
+                  enable: false,
+                },
+              },
+            },
+            detectRetina: true,
+          },
+        });
+      })();
+    </script>
+  </body>
+</html>
 
