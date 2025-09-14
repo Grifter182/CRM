@@ -1,12 +1,51 @@
 (function(){
-  if(document.body.classList.contains('os-shell-mounted')) return;
-  document.body.classList.add('os-shell-mounted');
-  document.body.insertAdjacentHTML("afterbegin",
-    '<div class="os-bg"></div><div class="os-veil"></div>'+
-    '<header class="os-header"><div style="color:#ef3c5b;font-weight:bold">MerchantHaus CRM</div>'+
-    '<div><button id="osSearch">Search</button></div></header>');
-  const toast=document.createElement("div");toast.id="osToast";toast.style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:6px 12px;background:rgba(0,0,0,.6);color:#fff";document.body.appendChild(toast);
-  function notify(msg){toast.textContent=msg;toast.style.opacity=1;setTimeout(()=>toast.style.opacity=0,1200);}
-  document.getElementById("osSearch").onclick=()=>notify("Search coming soon…");
-  window.OSShell={notify};
+  let audioReady=false, muted=false; let clickSfx=null, popSfx=null;
+  function initAudio(){
+    if(audioReady) return; audioReady=true;
+    clickSfx=new Audio('../click.mp3'); clickSfx.preload='auto';
+    popSfx=new Audio('../pop.mp3'); popSfx.preload='auto';
+    [clickSfx,popSfx].forEach(a=>a.volume = muted?0:1);
+  }
+  function playClick(){ if(audioReady && !muted && clickSfx){clickSfx.currentTime=0; clickSfx.play().catch(()=>{});} }
+  function playPop(){ if(audioReady && !muted && popSfx){popSfx.currentTime=0; popSfx.play().catch(()=>{});} }
+
+  const toast=document.querySelector('.toast');
+  function notify(msg){ if(!toast) return; toast.textContent=msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1500); }
+
+  document.querySelectorAll('.cta').forEach(btn=>{
+    btn.addEventListener('click',()=>{ initAudio(); playPop(); const a=btn.getAttribute('data-action'); notify('Executing '+a+'…'); });
+  });
+
+  const radial=document.querySelector('.radial');
+  if(radial){
+    const actions=[
+      {label:'Add Lead', fn:()=>notify('New lead modal…')},
+      {label:'Search', fn:()=>notify('Open command palette…')},
+      {label:'Toggle Theme', fn:()=>{ document.body.classList.toggle('light'); notify('Theme toggled');}},
+      {label:'Settings', fn:()=>notify('Opening settings…')}
+    ];
+    window.addEventListener('contextmenu',e=>{ e.preventDefault(); initAudio(); playClick(); openRadial(e.clientX,e.clientY); });
+    radial.addEventListener('click',e=>{ if(e.target.classList.contains('backdrop')) closeRadial(); });
+
+    function openRadial(x,y){
+      radial.innerHTML='<div class="backdrop"></div>'; const R=100;
+      actions.forEach((a,i)=>{ const ang=(i/actions.length)*Math.PI*2 - Math.PI/2;
+        const nx=x+Math.cos(ang)*R; const ny=y+Math.sin(ang)*R;
+        const b=document.createElement('button');
+        b.className='node bubble'; b.style.left=nx+'px'; b.style.top=ny+'px';
+        b.textContent=a.label;
+        b.addEventListener('click',()=>{ a.fn(); playPop(); closeRadial(); });
+        radial.appendChild(b);
+      });
+      radial.classList.add('open');
+    }
+    function closeRadial(){ radial.classList.remove('open'); }
+  }
+
+  const searchBtn=document.getElementById('openSearch');
+  if(searchBtn) searchBtn.addEventListener('click',()=>{ initAudio(); playClick(); notify('Search coming soon…'); });
+  const muteBtn=document.getElementById('toggleMute');
+  if(muteBtn) muteBtn.addEventListener('click',()=>{ initAudio(); muted=!muted; [clickSfx,popSfx].forEach(a=>{ if(a) a.volume = muted?0:1; }); notify(muted?'Sound off':'Sound on'); });
+
+  ['click','keydown','pointerdown','touchstart'].forEach(ev=>window.addEventListener(ev,initAudio,{once:true,passive:true}));
 })();
