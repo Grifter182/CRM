@@ -228,8 +228,8 @@
       }
       audioReady = true;
       try {
-        clickSfx = new Audio('https://actions.google.com/sounds/v1/ui/ui_tap_forward.ogg');
-        popSfx = new Audio('https://actions.google.com/sounds/v1/ui/ui_tap_start.ogg');
+        clickSfx = new Audio('click.mp3');
+        popSfx = new Audio('pop.mp3');
         startupSfx = new Audio('startup.mp3');
         [clickSfx, popSfx, startupSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
         
@@ -245,101 +245,5 @@
 
     // ---- Toast ----
     const toast = document.getElementById('toast');
-    let toastTimeout;
-    function notify(msg) {
-      clearTimeout(toastTimeout);
-      toast.textContent = msg;
-      toast.classList.add('show');
-      toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-
-    // ---- Window Management ----
-    function bringToFront(el) {
-        const windows = document.querySelectorAll('.window');
-        const maxZ = Math.max(10, ...Array.from(windows).map(w => parseInt(w.style.zIndex || '10')));
-        el.style.zIndex = maxZ + 1;
-    }
-
-    document.querySelectorAll('.window').forEach(win => {
-        const header = win.querySelector('.window-header');
-        let sx, sy, ox, oy, drag = false;
-        
-        const startDrag = (e) => {
-            playSfx(clickSfx);
-            drag = true;
-            const event = e.touches ? e.touches[0] : e;
-            sx = event.clientX;
-            sy = event.clientY;
-            ox = win.offsetLeft;
-            oy = win.offsetTop;
-            bringToFront(win);
-        };
-        
-        const dragWindow = (e) => {
-            if (!drag) return;
-            e.preventDefault();
-            const event = e.touches ? e.touches[0] : e;
-            win.style.left = `${ox + event.clientX - sx}px`;
-            win.style.top = `${oy + event.clientY - sy}px`;
-        };
-
-        const stopDrag = () => { drag = false; };
-
-        header.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', dragWindow);
-        document.addEventListener('mouseup', stopDrag);
-        
-        header.addEventListener('touchstart', startDrag, { passive: false });
-        document.addEventListener('touchmove', dragWindow, { passive: false });
-        document.addEventListener('touchend', stopDrag);
-        
-        win.addEventListener('mousedown', () => bringToFront(win));
-    });
-
-    document.addEventListener('click', e => {
-        const target = e.target.closest('[data-action]');
-        if (!target) return;
-        
-        initAudio(); // Sounds are initialized on first action
-        const [type, id] = target.getAttribute('data-action').split(':');
-
-        if (type === 'open') {
-            playSfx(popSfx);
-            const win = document.getElementById(`window-${id}`);
-            if (win) {
-                win.style.display = 'block';
-                bringToFront(win);
-            }
-        } else if (type === 'close') {
-            playSfx(clickSfx);
-            const win = document.getElementById(`window-${id}`);
-            if (win) win.style.display = 'none';
-        }
-    });
-
-    // ---- Header Controls ----
-    document.getElementById('openSearch').addEventListener('click', () => { initAudio(); playSfx(clickSfx); notify('Search coming soon…'); });
-    
-    muteButton.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent this click from triggering initAudio's startup sound
-      muted = !muted;
-      [clickSfx, popSfx, startupSfx].forEach(a => { if (a) a.volume = muted ? 0 : 1; });
-      
-      if (muted) {
-        muteButton.textContent = '🔇 Sound Off';
-        notify('Sound off');
-      } else {
-        muteButton.textContent = '🔊 Sound On';
-        notify('Sound on');
-        initAudio(); // Ensure audio is ready before playing a sound
-        playSfx(popSfx);
-      }
-    });
-
-    // Prime audio after first interaction
-    document.body.addEventListener('click', initAudio, { once: true });
-  </script>
-</body>
-</html>
-
+// ... existing code ... -->
 
