@@ -4,6 +4,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MerchantHaus — OS‑style CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
   <style>
     :root {
       --brand-red: #ef3c5b;
@@ -26,14 +29,20 @@
     }
 
     /* Background */
-    .bg { position: fixed; inset: 0; z-index: -2; background-image: url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop"); background-position: center; background-size: cover; }
+    .bg { position: fixed; inset: 0; z-index: -2; background-image: url("background.webp"); background-position: center; background-size: cover; }
     .veil { position: fixed; inset: 0; z-index: -1; background: radial-gradient(1200px 800px at 60% 35%, rgba(0,0,0,.25), rgba(0,0,0,.65)), linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)); }
 
     /* Header */
     header { position: fixed; left: 0; right: 0; top: 0; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(0,0,0,.35); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-color); z-index: 50; }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .logo { width: 18px; height: 18px; border-radius: 6px; background: conic-gradient(from 0deg, var(--brand-red), #c21b35, var(--brand-green)); box-shadow: 0 0 24px rgba(239,60,91,.35); }
-    .title { letter-spacing: 2px; text-transform: uppercase; font-weight: 700; font-size: 12px; color: var(--brand-red); }
+    .logo { width: 24px; height: 24px; }
+    .title {
+      font-family: "Major Mono Display", monospace;
+      letter-spacing: 1px;
+      font-size: 18px;
+      color: #FFFFFF;
+      line-height: 1;
+    }
     .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); background: var(--bg-surface); color: #fff; padding: 8px 10px; border-radius: 10px; cursor: pointer; transition: background-color 0.2s; }
     .btn:hover { background: rgba(255,255,255,.1); }
     .btn:active { transform: translateY(1px); }
@@ -98,9 +107,12 @@
   <div class="veil"></div>
 
   <header>
-    <div class="brand"><div class="logo"></div><div class="title">MerchantHaus CRM</div></div>
+    <div class="brand">
+      <img src="CRMlogo.png" alt="Haus Manager Logo" class="logo">
+      <div class="title">Haus Manager</div>
+    </div>
     <div style="display:flex; gap:8px; align-items:center">
-      <button id="toggleMute" class="btn" title="Mute/Unmute">🔊 Sound</button>
+      <button id="toggleMute" class="btn" title="Mute/Unmute">🔊 Sound On</button>
       <button id="openSearch" class="btn" title="Search (⌘/Ctrl+K)">Search</button>
     </div>
   </header>
@@ -136,9 +148,9 @@
       <div class="window-content">
         <h3 style="margin-top:0;">Overview</h3>
         <div class="stat-grid">
-            <div class="stat-card"><div class="stat-label">Gross Revenue</div><div class="stat-value">R 152,310</div></div>
-            <div class="stat-card"><div class="stat-label">Net Revenue</div><div class="stat-value">R 138,940</div></div>
-            <div class="stat-card"><div class="stat-label">AOV</div><div class="stat-value">R 317</div></div>
+            <div class="stat-card"><div class="stat-label">Gross Revenue</div><div class="stat-value">$152,310</div></div>
+            <div class="stat-card"><div class="stat-label">Net Revenue</div><div class="stat-value">$138,940</div></div>
+            <div class="stat-card"><div class="stat-label">AOV</div><div class="stat-value">$317</div></div>
             <div class="stat-card"><div class="stat-label">Refund Rate</div><div class="stat-value">0.8%</div></div>
         </div>
       </div>
@@ -151,8 +163,8 @@
         <table class="content-table">
             <thead><tr><th>Plan</th><th>Customer</th><th>Start</th><th>Next Billing</th><th>Status</th><th style="text-align: right;">Amount</th></tr></thead>
             <tbody>
-              <tr><td>Standard</td><td>Lerato M.</td><td>2025-06-01</td><td>2025-09-01</td><td><span class="status-pill status-active">Active</span></td><td style="text-align: right;">R 349.00</td></tr>
-              <tr><td>Pro</td><td>Andre J.</td><td>2025-05-12</td><td>2025-09-12</td><td><span class="status-pill status-due">Past due</span></td><td style="text-align: right;">R 899.00</td></tr>
+              <tr><td>Standard</td><td>Lerato M.</td><td>2025-06-01</td><td>2025-09-01</td><td><span class="status-pill status-active">Active</span></td><td style="text-align: right;">$349.00</td></tr>
+              <tr><td>Pro</td><td>Andre J.</td><td>2025-05-12</td><td>2025-09-12</td><td><span class="status-pill status-due">Past due</span></td><td style="text-align: right;">$899.00</td></tr>
             </tbody>
         </table>
       </div>
@@ -165,9 +177,9 @@
          <table class="content-table">
           <thead><tr><th>Date</th><th>Customer</th><th style="text-align: right;">Amount</th><th>Payment</th><th>Status</th><th>Txn ID</th></tr></thead>
           <tbody>
-            <tr><td>2025-08-20 10:14</td><td>Lerato M.</td><td style="text-align: right;">R 1,250.00</td><td>Card</td><td><span class="status-pill status-active">Paid</span></td><td>TXN-9F21A</td></tr>
-            <tr><td>2025-08-20 09:52</td><td>A. Jacobs</td><td style="text-align: right;">R 899.00</td><td>EFT</td><td><span class="status-pill status-due">Pending</span></td><td>TXN-9F219</td></tr>
-            <tr><td>2025-08-20 09:33</td><td>S. Naidoo</td><td style="text-align: right;">R 89.00</td><td>Card</td><td><span class="status-pill status-failed">Failed</span></td><td>TXN-9F1Z7</td></tr>
+            <tr><td>2025-08-20 10:14</td><td>Lerato M.</td><td style="text-align: right;">$1,250.00</td><td>Card</td><td><span class="status-pill status-active">Paid</span></td><td>TXN-9F21A</td></tr>
+            <tr><td>2025-08-20 09:52</td><td>A. Jacobs</td><td style="text-align: right;">$899.00</td><td>EFT</td><td><span class="status-pill status-due">Pending</span></td><td>TXN-9F219</td></tr>
+            <tr><td>2025-08-20 09:33</td><td>S. Naidoo</td><td style="text-align: right;">$89.00</td><td>Card</td><td><span class="status-pill status-failed">Failed</span></td><td>TXN-9F1Z7</td></tr>
           </tbody>
          </table>
       </div>
@@ -201,18 +213,35 @@
 
   <script>
     // ---- Audio ----
-    let audioReady = false, muted = false;
-    let clickSfx = null, popSfx = null;
+    let audioReady = false, muted = false, startupSoundPlayed = false;
+    let clickSfx = null, popSfx = null, startupSfx = null;
+    const muteButton = document.getElementById('toggleMute');
+
     function initAudio() {
-      if (audioReady) return;
+      if (audioReady) {
+        // Play startup sound if it hasn't been played yet
+        if (!startupSoundPlayed && startupSfx) {
+            playSfx(startupSfx);
+            startupSoundPlayed = true;
+        }
+        return;
+      }
       audioReady = true;
       try {
-        clickSfx = new Audio('https://cdn.pixabay.com/audio/2021/08/04/audio_c6ccff610d.mp3'); // Replace with your file
-        popSfx = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_741ff3415f.mp3');   // Replace with your file
-        [clickSfx, popSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
+        clickSfx = new Audio('https://actions.google.com/sounds/v1/ui/ui_tap_forward.ogg');
+        popSfx = new Audio('https://actions.google.com/sounds/v1/ui/ui_tap_start.ogg');
+        startupSfx = new Audio('startup.mp3');
+        [clickSfx, popSfx, startupSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
+        
+        // Play startup sound on first initialization
+        if (!startupSoundPlayed) {
+            playSfx(startupSfx);
+            startupSoundPlayed = true;
+        }
+
       } catch (e) { console.error("Could not initialize audio:", e); }
     }
-    function playSfx(sfx) { if (!audioReady || muted || !sfx) return; try { sfx.currentTime = 0; sfx.play(); } catch (e) {} }
+    function playSfx(sfx) { if (!muted && sfx) { try { sfx.currentTime = 0; sfx.play().catch(e => {}); } catch (e) {} } }
 
     // ---- Toast ----
     const toast = document.getElementById('toast');
@@ -271,7 +300,7 @@
         const target = e.target.closest('[data-action]');
         if (!target) return;
         
-        initAudio();
+        initAudio(); // Sounds are initialized on first action
         const [type, id] = target.getAttribute('data-action').split(':');
 
         if (type === 'open') {
@@ -290,15 +319,27 @@
 
     // ---- Header Controls ----
     document.getElementById('openSearch').addEventListener('click', () => { initAudio(); playSfx(clickSfx); notify('Search coming soon…'); });
-    document.getElementById('toggleMute').addEventListener('click', () => {
-      initAudio();
+    
+    muteButton.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent this click from triggering initAudio's startup sound
       muted = !muted;
-      [clickSfx, popSfx].forEach(a => { if (a) a.volume = muted ? 0 : 1; });
-      notify(muted ? 'Sound off' : 'Sound on');
+      [clickSfx, popSfx, startupSfx].forEach(a => { if (a) a.volume = muted ? 0 : 1; });
+      
+      if (muted) {
+        muteButton.textContent = '🔇 Sound Off';
+        notify('Sound off');
+      } else {
+        muteButton.textContent = '🔊 Sound On';
+        notify('Sound on');
+        initAudio(); // Ensure audio is ready before playing a sound
+        playSfx(popSfx);
+      }
     });
 
-    // Prime audio
-    ['click', 'keydown'].forEach(ev => window.addEventListener(ev, initAudio, { once: true }));
+    // Prime audio after first interaction
+    document.body.addEventListener('click', initAudio, { once: true });
   </script>
 </body>
 </html>
+
+
