@@ -9,51 +9,94 @@
   <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* Dark Theme (Default) */
+      --bg-color: #09090b;
+      --surface-color: rgba(24, 24, 27, 0.7);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --shadow-color: rgba(0,0,0,.5);
+      
+      /* Unchanging Brand Colors */
       --brand-red: #ef3c5b;
       --brand-green: #6dffca;
-      --ink: #f5f5f5;
-      --muted: #b3b3b3;
-      --bg-surface: rgba(255, 255, 255, .06);
-      --border-color: rgba(255, 255, 255, .12);
-      --shadow-color: rgba(0,0,0,.5);
     }
+
+    body.lunar {
+      /* Lunar Theme */
+      --bg-color: #fafafa;
+      --surface-color: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(0, 0, 0, 0.1);
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --shadow-color: rgba(0,0,0,.1);
+      --brand-green: #10b981; /* Darker green for light backgrounds */
+    }
+
     html, body {
       height: 100%;
     }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--ink);
+      background-color: var(--bg-color);
+      color: var(--text-primary);
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Background */
+    /* Background Image */
     .bg { position: fixed; inset: 0; z-index: -2; background-image: url("background.webp"); background-position: center; background-size: cover; }
-    .veil { position: fixed; inset: 0; z-index: -1; background: radial-gradient(1200px 800px at 60% 35%, rgba(0,0,0,.25), rgba(0,0,0,.65)), linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)); }
+    .veil { 
+      position: fixed; 
+      inset: 0; 
+      z-index: -1; 
+      background: radial-gradient(1200px 800px at 60% 35%, rgba(0,0,0,.25), rgba(0,0,0,.65)), linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55));
+      transition: opacity 0.3s ease;
+    }
+    body.lunar .veil {
+        opacity: 0.5;
+    }
+
 
     /* Header */
-    header { position: fixed; left: 0; right: 0; top: 0; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(0,0,0,.35); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-color); z-index: 50; }
+    header { 
+      position: fixed; 
+      left: 0; right: 0; top: 0; 
+      height: 56px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 10px 14px; 
+      background: var(--surface-color);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color); 
+      z-index: 50; 
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
     .brand { display: flex; align-items: center; gap: 10px; }
     .logo { width: 24px; height: 24px; }
     .title {
       font-family: "Major Mono Display", monospace;
       letter-spacing: 1px;
       font-size: 18px;
-      color: #FFFFFF;
+      color: var(--text-primary);
       line-height: 1;
+      transition: color 0.3s ease;
     }
-    .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); background: var(--bg-surface); color: #fff; padding: 8px 10px; border-radius: 10px; cursor: pointer; transition: background-color 0.2s; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); background: rgba(255, 255, 255, .06); color: var(--text-primary); padding: 8px 10px; border-radius: 10px; cursor: pointer; transition: background-color 0.2s, color 0.3s ease, border-color 0.3s ease; }
     .btn:hover { background: rgba(255,255,255,.1); }
     .btn:active { transform: translateY(1px); }
 
     /* Desktop & App Icons */
     main { position: relative; height: 100dvh; padding-top: 56px; overflow: hidden; }
     .dock { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 20px; }
-    .app-icon { min-height: 120px; border-radius: 16px; background: var(--bg-surface); border: 1px solid var(--border-color); box-shadow: 0 8px 30px var(--shadow-color); padding: 14px 14px 16px; transition: transform 0.2s, box-shadow 0.2s; }
+    .app-icon { min-height: 120px; border-radius: 16px; background: var(--surface-color); border: 1px solid var(--border-color); box-shadow: 0 8px 30px var(--shadow-color); padding: 14px 14px 16px; transition: transform 0.2s, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
     .app-icon:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow-color); }
-    .app-icon h2 { margin: 0 0 8px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--brand-green); }
-    .app-icon p { margin: 0 0 10px; color: #eaeaea; font-size: 13px; line-height: 1.35; }
+    .app-icon h2 { margin: 0 0 8px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--brand-green); transition: color 0.3s ease; }
+    .app-icon p { margin: 0 0 10px; color: var(--text-secondary); font-size: 13px; line-height: 1.35; transition: color 0.3s ease; }
     .cta { display: inline-block; margin-top: 12px; padding: 8px 12px; border-radius: 10px; border: none; background: var(--brand-red); color: #111; font-weight: 700; cursor: pointer; }
     .cta:active { transform: translateY(1px); }
 
@@ -65,41 +108,53 @@
         max-width: 90vw;
         min-height: 300px;
         border-radius: 16px;
-        background: rgba(15, 15, 15, 0.7);
+        background: var(--surface-color);
         border: 1px solid var(--border-color);
-        box-shadow: 0 12px 50px rgba(0,0,0,.6);
+        box-shadow: 0 12px 50px var(--shadow-color);
         backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         user-select: none;
         resize: both;
         overflow: hidden;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .window-header { height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: rgba(255,255,255,.05); cursor: grab; }
-    .window-header:active { cursor: grabbing; }
-    .window-title { font-weight: 600; font-size: 14px; }
+    body.lunar .window-header { background: rgba(0,0,0,0.02); }
+    .window-title { font-weight: 600; font-size: 14px; color: var(--text-primary); }
     .window-controls { display: flex; gap: 6px; }
     .window-btn { width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer; }
     .close-btn { background-color: #ff5f56; }
-    .window-content { padding: 20px; height: calc(100% - 40px); overflow-y: auto; }
+    .window-content { padding: 20px; height: calc(100% - 40px); overflow-y: auto; color: var(--text-primary); }
 
     /* Content Styling */
     .content-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .content-table th, .content-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
-    .content-table thead th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+    .content-table th, .content-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); transition: border-color 0.3s ease; }
+    .content-table thead th { color: var(--text-secondary); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
     .status-pill { display: inline-block; padding: 4px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; }
     .status-active { background: rgba(16, 185, 129, 0.2); color: #34d399; }
     .status-due { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
     .status-failed { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-    .form-group label { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block; }
-    .form-input { background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--ink); width: 100%; box-sizing: border-box; }
+    .form-group label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+    .form-input { background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--text-primary); width: 100%; box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+    body.lunar .form-input { background-color: rgba(0,0,0,0.05); }
     .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
-    .stat-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; }
-    .stat-label { font-size: 13px; color: var(--muted); }
-    .stat-value { font-size: 24px; font-weight: 600; margin-top: 4px; }
+    .stat-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; transition: background-color 0.3s ease, border-color 0.3s ease; }
+    body.lunar .stat-card { background: rgba(0,0,0,0.02); }
+    .stat-label { font-size: 13px; color: var(--text-secondary); }
+    .stat-value { font-size: 24px; font-weight: 600; margin-top: 4px; color: var(--text-primary); }
     
     /* Toast */
-    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(100%); opacity: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(6px); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; color: #fff; transition: all .3s cubic-bezier(0.215, 0.610, 0.355, 1); z-index: 1000; }
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(100%); opacity: 0; background: var(--surface-color); backdrop-filter: blur(6px); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; color: var(--text-primary); transition: all .3s cubic-bezier(0.215, 0.610, 0.355, 1); z-index: 1000; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Radial Menu */
+    .radial { position: fixed; inset: 0; display: none; z-index: 70; }
+    .radial.open { display: block; }
+    .radial .backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+    body.lunar .radial .backdrop { background: rgba(0,0,0,.2); }
+    .radial .node { position: absolute; transform: translate(-50%,-50%); }
+    .bubble { border: 1px solid var(--border-color); background: var(--surface-color); backdrop-filter: blur(4px); padding: 9px 12px; border-radius: 12px; color: var(--text-primary); font-size: 12px; white-space: nowrap; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -209,20 +264,20 @@
     </div>
   </main>
   
+  <div id="radial" class="radial" aria-hidden="true"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
     // ---- Audio ----
-    let audioReady = false, muted = false, startupSoundPlayed = false;
-    let clickSfx = null, popSfx = null, startupSfx = null;
+    let audioReady = false, muted = false, startSoundPlayed = false;
+    let clickSfx = null, popSfx = null, startSfx = null, rightClickSfx = null;
     const muteButton = document.getElementById('toggleMute');
 
     function initAudio() {
       if (audioReady) {
-        // Play startup sound if it hasn't been played yet
-        if (!startupSoundPlayed && startupSfx) {
-            playSfx(startupSfx);
-            startupSoundPlayed = true;
+        if (!startSoundPlayed && startSfx) {
+            playSfx(startSfx);
+            startSoundPlayed = true;
         }
         return;
       }
@@ -230,20 +285,147 @@
       try {
         clickSfx = new Audio('click.mp3');
         popSfx = new Audio('pop.mp3');
-        startupSfx = new Audio('startup.mp3');
-        [clickSfx, popSfx, startupSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
+        startSfx = new Audio('start.mp3');
+        rightClickSfx = new Audio('rightclick.mp4');
+        [clickSfx, popSfx, startSfx, rightClickSfx].forEach(a => { a.preload = 'auto'; a.volume = muted ? 0 : 1; });
         
-        // Play startup sound on first initialization
-        if (!startupSoundPlayed) {
-            playSfx(startupSfx);
-            startupSoundPlayed = true;
+        if (!startSoundPlayed) {
+            playSfx(startSfx);
+            startSoundPlayed = true;
         }
-
       } catch (e) { console.error("Could not initialize audio:", e); }
     }
     function playSfx(sfx) { if (!muted && sfx) { try { sfx.currentTime = 0; sfx.play().catch(e => {}); } catch (e) {} } }
 
     // ---- Toast ----
     const toast = document.getElementById('toast');
-// ... existing code ... -->
+    let toastTimeout;
+    function notify(msg) {
+      clearTimeout(toastTimeout);
+      toast.textContent = msg;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // ---- Window Management ----
+    function bringToFront(el) {
+        const windows = document.querySelectorAll('.window');
+        const maxZ = Math.max(10, ...Array.from(windows).map(w => parseInt(w.style.zIndex || '10')));
+        el.style.zIndex = maxZ + 1;
+    }
+
+    document.querySelectorAll('.window').forEach(win => {
+        const header = win.querySelector('.window-header');
+        let sx, sy, ox, oy, drag = false;
+        
+        const startDrag = (e) => {
+            if (e.target.closest('.window-btn')) return;
+            playSfx(clickSfx);
+            drag = true;
+            const event = e.touches ? e.touches[0] : e;
+            sx = event.clientX;
+            sy = event.clientY;
+            ox = win.offsetLeft;
+            oy = win.offsetTop;
+            bringToFront(win);
+        };
+        
+        const dragWindow = (e) => {
+            if (!drag) return;
+            e.preventDefault();
+            const event = e.touches ? e.touches[0] : e;
+            win.style.left = `${ox + event.clientX - sx}px`;
+            win.style.top = `${oy + event.clientY - sy}px`;
+        };
+
+        const stopDrag = () => { drag = false; };
+
+        header.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', dragWindow);
+        document.addEventListener('mouseup', stopDrag);
+        header.addEventListener('touchstart', startDrag, { passive: false });
+        document.addEventListener('touchmove', dragWindow, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+        win.addEventListener('mousedown', () => bringToFront(win));
+    });
+
+    // Main click handler to prevent double sound issue
+    document.addEventListener('click', e => {
+        const target = e.target.closest('[data-action]');
+        if (!target) return;
+        
+        initAudio();
+        const [type, id] = target.getAttribute('data-action').split(':');
+
+        if (type === 'open') {
+            playSfx(popSfx); // Only play pop sound for opening
+            const win = document.getElementById(`window-${id}`);
+            if (win) {
+                win.style.display = 'block';
+                bringToFront(win);
+            }
+        } else if (type === 'close') {
+            playSfx(clickSfx);
+            const win = document.getElementById(`window-${id}`);
+            if (win) win.style.display = 'none';
+        }
+    });
+    
+    // ---- Right-click Radial Menu ----
+    const radial = document.getElementById('radial');
+    const radialActions = [
+      {label:'New Report', fn:()=>notify('Opening new report...')},
+      {label:'Add Subscription', fn:()=>notify('Opening new subscription form...')},
+      {label:'Global Search', fn:()=>notify('Opening search...')},
+      {label:'Toggle Theme', fn:()=>{
+          document.body.classList.toggle('lunar');
+          notify(document.body.classList.contains('lunar') ? 'Lunar theme activated' : 'Dark theme activated');
+      }},
+    ];
+
+    function openRadial(x,y){
+      radial.innerHTML='<div class="backdrop"></div>'; 
+      const R=100; 
+      radialActions.forEach((a,i)=>{ 
+        const ang=(i/radialActions.length)*Math.PI*2 - Math.PI/2; 
+        const nx=x+Math.cos(ang)*R; 
+        const ny=y+Math.sin(ang)*R; 
+        const b=document.createElement('button'); 
+        b.className='node bubble'; 
+        b.style.left=nx+'px'; 
+        b.style.top=ny+'px'; 
+        b.textContent=a.label; 
+        b.addEventListener('click',()=>{ a.fn(); playSfx(popSfx); closeRadial(); }); 
+        radial.appendChild(b); 
+      }); 
+      radial.classList.add('open'); 
+    }
+    function closeRadial(){ radial.classList.remove('open'); }
+    
+    window.addEventListener('contextmenu', e => { 
+        e.preventDefault(); 
+        initAudio(); 
+        playSfx(rightClickSfx); 
+        openRadial(e.clientX, e.clientY); 
+    });
+    radial.addEventListener('click', e => { 
+        if(e.target.classList.contains('backdrop')) closeRadial(); 
+    });
+
+
+    // ---- Header Controls ----
+    document.getElementById('openSearch').addEventListener('click', () => { initAudio(); playSfx(clickSfx); notify('Search coming soon…'); });
+    document.getElementById('toggleMute').addEventListener('click', () => {
+      initAudio();
+      muted = !muted;
+      [clickSfx, popSfx, startSfx, rightClickSfx].forEach(a => { if (a) a.volume = muted ? 0 : 1; });
+      muteButton.textContent = muted ? '🔇 Sound Off' : '🔊 Sound On';
+      notify(muted ? 'Sound off' : 'Sound on');
+    });
+
+    // Prime audio
+    ['click', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, initAudio, { once: true }));
+  </script>
+</body>
+</html>
 
