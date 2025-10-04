@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MerchantHaus — Dashboard</title>
+  <!-- Fonts for stylised header text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+  <style>
+    /* Colour variables allow easy theme switching and alignment with the original OS‑style CRM */
+    :root {
+      --brand-red: #ef3c5b;
+      --brand-green: #6dffca;
+      --ink: #f5f5f5;
+      --muted: #b3b3b3;
+      --bg-surface: rgba(255, 255, 255, .06);
+      --border-color: rgba(255, 255, 255, .12);
+      --main-bg: transparent;
+      --header-bg: rgba(0,0,0,.35);
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background-color: var(--main-bg);
+      overflow: hidden;
+    }
+
+    header {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 24px;
+      height: 24px;
+    }
+    .title {
+      font-family: "Major Mono Display", monospace;
+      letter-spacing: 1px;
+      font-size: 18px;
+      color: #fff;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--ink);
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn:hover { background: rgba(255,255,255,.1); }
+
+    /* Layout for the desktop dock */
+    main {
+      position: relative;
+      height: 100dvh;
+      padding-top: 56px;
+      overflow: hidden;
+    }
+    .dock {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    .app-icon {
+      min-height: 120px;
+      border-radius: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+      padding: 14px 14px 16px;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .app-icon:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.6);
+    }
+    .app-icon h2 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--brand-green);
+    }
+    .app-icon p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      background: var(--brand-red);
+      color: #111;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .cta:hover { background: #d82f4c; }
+
+    /* Window styling */
+    .window {
+      display: none;
+      position: absolute;
+      width: 800px;
+      max-width: 90vw;
+      min-height: 300px;
+      border-radius: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 50px rgba(0,0,0,.6);
+      backdrop-filter: blur(12px);
+      user-select: none;
+      overflow: hidden;
+    }
+    .window-header {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: rgba(255,255,255,.05);
+      cursor: pointer;
+    }
+    .window-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .window-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .window-btn {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+    }
+    .close-btn {
+      background-color: #ff5f56;
+    }
+    .window-content {
+      padding: 20px;
+      height: calc(100% - 40px);
+      overflow-y: auto;
+    }
+
+    /* Form and table styling */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    .form-group label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-input {
+      background-color: rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--ink);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .content-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+    .content-table th, .content-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .content-table thead th {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+  </style>
+
+  <!-- NMI Collect.js script for tokenisation -->
+  <script src="https://secure.nmi.com/token/Collect.js"
+          data-tokenization-key="5X75fz-9f3w36-35UBSm-D878dd"
+          data-variant="inline"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="CRMlogo.png" alt="Haus Manager Logo" class="logo" />
+      <div class="title">Haus Manager</div>
+    </div>
+    <!-- Placeholder for future actions like theme selection -->
+    <div></div>
+  </header>
+  <main id="desktop">
+    <div class="dock">
+      <section class="app-icon">
+        <h2>Recurring</h2>
+        <p>Manage recurring payment plans and schedules.</p>
+        <button class="cta" data-action="open:recurring">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Customer Vault</h2>
+        <p>Securely store and manage customer payment information.</p>
+        <button class="cta" data-action="open:vault">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Invoices</h2>
+        <p>Create, send, and track customer invoices.</p>
+        <button class="cta" data-action="open:invoices">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Marketplace Apps</h2>
+        <p>Browse and integrate third‑party applications.</p>
+        <button class="cta" data-action="open:marketplace">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Collect Checkout</h2>
+        <p>Configure and manage your hosted checkout pages.</p>
+        <button class="cta" data-action="open:checkout">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Product Manager</h2>
+        <p>Create and manage your product catalog.</p>
+        <button class="cta" data-action="open:products">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Other Services</h2>
+        <p>Access additional services and features.</p>
+        <button class="cta" data-action="open:services">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Transaction Reports</h2>
+        <p>View detailed reports on your transactions.</p>
+        <button class="cta" data-action="open:reports">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Options</h2>
+        <p>Configure your account and application settings.</p>
+        <button class="cta" data-action="open:options">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Help</h2>
+        <p>Access documentation and support resources.</p>
+        <button class="cta" data-action="open:help">Open</button>
+      </section>
+    </div>
+
+    <!-- Window: Collect Checkout -->
+    <div id="window-checkout" class="window">
+      <div class="window-header">
+        <span class="window-title">Collect Checkout</span>
+        <div class="window-controls">
+          <button class="window-btn close-btn" data-action="close:checkout"></button>
+        </div>
+      </div>
+      <div class="window-content">
+        <form id="checkout-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="card-name">Cardholder Name</label>
+            <input type="text" id="card-name" class="form-input" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <div id="card-number" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>Expiration Date</label>
+            <div id="exp-date" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <div id="cvv" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" class="form-input" min="0" step="0.01" placeholder="0.00" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="pay-button" class="cta">Pay</button>
+          </div>
+        </form>
+        <pre id="payment-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+
+    <!-- Window: Transaction Reports -->
+    <div id="window-reports" class="window">
+      <div class="window-header">
+        <span class="window-title">Transaction Reports</span>
+        <div class="window-controls">
+          <button class="window-btn close-btn" data-action="close:reports"></button>
+        </div>
+      </div>
+      <div class="window-content">
+        <button id="fetch-reports" class="cta">Fetch Transactions</button>
+        <table id="transactions-table" class="content-table">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-body"></tbody>
+        </table>
+        <pre id="report-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+
+    <!-- Placeholder windows for other modules (remain basic) -->
+    <div id="window-recurring" class="window">
+      <div class="window-header"><span class="window-title">Recurring</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:recurring"></button></div></div>
+      <div class="window-content">
+        <h3>Create Subscription</h3>
+        <form id="recurring-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="rec-plan-payments">Plan Payments</label>
+            <input type="number" id="rec-plan-payments" class="form-input" min="1" step="1" placeholder="e.g., 12" />
+          </div>
+          <div class="form-group">
+            <label for="rec-plan-amount">Plan Amount</label>
+            <input type="number" id="rec-plan-amount" class="form-input" min="0" step="0.01" placeholder="e.g., 10.00" />
+          </div>
+          <div class="form-group">
+            <label for="rec-day-frequency">Day Frequency</label>
+            <input type="number" id="rec-day-frequency" class="form-input" min="1" step="1" placeholder="e.g., 30" />
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <div id="rec-card-number" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>Expiration Date</label>
+            <div id="rec-exp-date" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <div id="rec-cvv" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <button type="button" id="rec-submit" class="cta">Create Subscription</button>
+          </div>
+        </form>
+        <pre id="rec-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+    <div id="window-vault" class="window">
+      <div class="window-header"><span class="window-title">Customer Vault</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:vault"></button></div></div>
+      <div class="window-content">
+        <h3>Add Customer to Vault</h3>
+        <form id="vault-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="vault-card-name" class="form-input" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <div id="vault-card-number" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>Expiration Date</label>
+            <div id="vault-exp-date" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <div id="vault-cvv" class="form-input"></div>
+          </div>
+          <div class="form-group">
+            <button type="button" id="vault-submit" class="cta">Add to Vault</button>
+          </div>
+        </form>
+        <pre id="vault-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+        <h3>Charge Customer from Vault</h3>
+        <form id="vault-charge-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="vault-id">Customer Vault ID</label>
+            <input type="text" id="vault-id" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="vault-charge-amount">Amount</label>
+            <input type="number" id="vault-charge-amount" class="form-input" min="0" step="0.01" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="vault-charge-submit" class="cta">Charge</button>
+          </div>
+        </form>
+        <pre id="vault-charge-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+    <div id="window-invoices" class="window">
+      <div class="window-header"><span class="window-title">Invoices</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:invoices"></button></div></div>
+      <div class="window-content">
+        <h3>Create Invoice</h3>
+        <form id="invoice-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="invoice-email">Customer Email</label>
+            <input type="email" id="invoice-email" class="form-input" placeholder="customer@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="invoice-amount">Amount</label>
+            <input type="number" id="invoice-amount" class="form-input" min="0" step="0.01" placeholder="100.00" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="invoice-create" class="cta">Create Invoice</button>
+          </div>
+        </form>
+        <pre id="invoice-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+    <div id="window-marketplace" class="window">
+      <div class="window-header"><span class="window-title">Marketplace Apps</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:marketplace"></button></div></div>
+      <div class="window-content">
+        <h3>Marketplace Apps</h3>
+        <p>No marketplace apps integrated yet. Please check our documentation or contact support to integrate additional services.</p>
+      </div>
+    </div>
+    <div id="window-products" class="window">
+      <div class="window-header"><span class="window-title">Product Manager</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:products"></button></div></div>
+      <div class="window-content">
+        <h3>Product Manager</h3>
+        <form id="product-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="product-sku">SKU</label>
+            <input type="text" id="product-sku" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="product-desc">Description</label>
+            <input type="text" id="product-desc" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="product-price">Price</label>
+            <input type="number" id="product-price" class="form-input" min="0" step="0.01" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="product-add" class="cta">Add Product</button>
+          </div>
+        </form>
+        <table id="product-table" class="content-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Description</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody id="product-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="window-services" class="window">
+      <div class="window-header"><span class="window-title">Other Services</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:services"></button></div></div>
+      <div class="window-content">
+        <h3>Other Services</h3>
+        <p>This section can be used to describe additional services offered by MerchantHaus. Add relevant information here.</p>
+      </div>
+    </div>
+    <div id="window-options" class="window">
+      <div class="window-header"><span class="window-title">Options</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:options"></button></div></div>
+      <div class="window-content">
+        <h3>Options</h3>
+        <p>You can extend this area to change application settings such as themes, sound or account preferences.</p>
+      </div>
+    </div>
+    <div id="window-help" class="window">
+      <div class="window-header"><span class="window-title">Help</span><div class="window-controls"><button class="window-btn close-btn" data-action="close:help"></button></div></div>
+      <div class="window-content">
+        <h3>Help &amp; Support</h3>
+        <p>Need help? Visit <a href="https://docs.nmi.com" target="_blank">NMI Documentation</a> or <a href="https://support.nmi.com" target="_blank">Support</a>. For MerchantHaus-specific assistance, contact <a href="mailto:taylor@merchanthaus.io">taylor@merchanthaus.io</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Simple window management: open and close windows by matching IDs
+    document.addEventListener('click', function(evt) {
+      const target = evt.target.closest('[data-action]');
+      if (!target) return;
+      const parts = target.getAttribute('data-action').split(':');
+      const action = parts[0];
+      const id = parts[1];
+      if (action === 'open') {
+        const win = document.getElementById('window-' + id);
+        if (win) {
+          win.style.display = 'block';
+          // bring to front by using current timestamp as zIndex
+          win.style.zIndex = String(Date.now());
+          // When opening certain windows, reconfigure CollectJS to mount fields on the appropriate selectors.
+          if (typeof CollectJS !== 'undefined') {
+            if (id === 'recurring') {
+              CollectJS.configure({
+                variant: 'inline',
+                fields: {
+                  cardNumber: { selector: '#rec-card-number' },
+                  expirationDate: { selector: '#rec-exp-date' },
+                  cvv: { selector: '#rec-cvv' }
+                }
+              });
+            } else if (id === 'vault') {
+              CollectJS.configure({
+                variant: 'inline',
+                fields: {
+                  cardNumber: { selector: '#vault-card-number' },
+                  expirationDate: { selector: '#vault-exp-date' },
+                  cvv: { selector: '#vault-cvv' }
+                }
+              });
+            } else if (id === 'checkout') {
+              CollectJS.configure({
+                variant: 'inline',
+                fields: {
+                  cardNumber: { selector: '#card-number' },
+                  expirationDate: { selector: '#exp-date' },
+                  cvv: { selector: '#cvv' }
+                }
+              });
+            }
+          }
+        }
+      } else if (action === 'close') {
+        const win = document.getElementById('window-' + id);
+        if (win) win.style.display = 'none';
+      }
+    });
+
+    // Setup CollectJS and payment handler after DOM ready
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof CollectJS !== 'undefined') {
+        CollectJS.configure({
+          variant: 'inline',
+          fields: {
+            cardNumber: { selector: '#card-number' },
+            expirationDate: { selector: '#exp-date' },
+            cvv: { selector: '#cvv' }
+          }
+        });
+      }
+      const payBtn = document.getElementById('pay-button');
+      if (payBtn) {
+        payBtn.addEventListener('click', function() {
+          const amount = document.getElementById('amount').value || '0.00';
+          // Tokenise card data; callback returns token on success
+          CollectJS.tokenize({}, function(resp) {
+            const token = resp.token || resp.payment_token;
+            const params = new URLSearchParams();
+            params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+            params.append('payment_token', token);
+            params.append('amount', amount);
+            params.append('type', 'sale');
+            fetch('https://secure.nmi.com/api/transact.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: params.toString()
+            })
+            .then(response => response.text())
+            .then(text => {
+              document.getElementById('payment-response').textContent = text;
+            })
+            .catch(err => {
+              document.getElementById('payment-response').textContent = 'Error: ' + err;
+            });
+          }, function(error) {
+            // Tokenisation error
+            document.getElementById('payment-response').textContent = 'Tokenisation error: ' + JSON.stringify(error);
+          });
+        });
+      }
+      // Reports button
+      const reportBtn = document.getElementById('fetch-reports');
+      if (reportBtn) {
+        reportBtn.addEventListener('click', function() {
+          const params = new URLSearchParams();
+          params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+          params.append('report_type', 'transaction');
+          fetch('https://secure.nmi.com/api/query.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          })
+          .then(res => res.text())
+          .then(text => {
+            const tbody = document.getElementById('transactions-body');
+            tbody.innerHTML = '';
+            const lines = text.trim().split(/\r?\n/);
+            lines.forEach(line => {
+              if (!line) return;
+              const data = new URLSearchParams(line);
+              const tr = document.createElement('tr');
+              tr.innerHTML = `<td>${data.get('transaction_id') || ''}</td>` +
+                            `<td>${data.get('transaction_type') || ''}</td>` +
+                            `<td>${data.get('amount') || ''}</td>` +
+                            `<td>${data.get('response_text') || ''}</td>`;
+              tbody.appendChild(tr);
+            });
+            if (!lines.length) {
+              document.getElementById('report-response').textContent = 'No transactions found.';
+            } else {
+              document.getElementById('report-response').textContent = '';
+            }
+          })
+          .catch(err => {
+            document.getElementById('report-response').textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Recurring subscription creation
+      const recSubmit = document.getElementById('rec-submit');
+      if (recSubmit) {
+        recSubmit.addEventListener('click', function() {
+          const planPayments = document.getElementById('rec-plan-payments').value;
+          const planAmount = document.getElementById('rec-plan-amount').value;
+          const dayFrequency = document.getElementById('rec-day-frequency').value;
+          if (typeof CollectJS !== 'undefined') {
+            // ensure fields are mounted on recurring form
+            CollectJS.configure({
+              variant: 'inline',
+              fields: {
+                cardNumber: { selector: '#rec-card-number' },
+                expirationDate: { selector: '#rec-exp-date' },
+                cvv: { selector: '#rec-cvv' }
+              }
+            });
+            CollectJS.tokenize({}, function(resp) {
+              const token = resp.token || resp.payment_token;
+              const params = new URLSearchParams();
+              params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+              params.append('recurring', 'add_subscription');
+              if (planPayments) params.append('plan_payments', planPayments);
+              if (planAmount) params.append('plan_amount', planAmount);
+              if (dayFrequency) params.append('day_frequency', dayFrequency);
+              params.append('payment_token', token);
+              fetch('https://secure.nmi.com/api/transact.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+              })
+              .then(res => res.text())
+              .then(text => {
+                document.getElementById('rec-response').textContent = text;
+              })
+              .catch(err => {
+                document.getElementById('rec-response').textContent = 'Error: ' + err;
+              });
+            }, function(error) {
+              document.getElementById('rec-response').textContent = 'Tokenisation error: ' + JSON.stringify(error);
+            });
+          }
+        });
+      }
+
+      // Vault: Add customer
+      const vaultSubmit = document.getElementById('vault-submit');
+      if (vaultSubmit) {
+        vaultSubmit.addEventListener('click', function() {
+          if (typeof CollectJS !== 'undefined') {
+            CollectJS.configure({
+              variant: 'inline',
+              fields: {
+                cardNumber: { selector: '#vault-card-number' },
+                expirationDate: { selector: '#vault-exp-date' },
+                cvv: { selector: '#vault-cvv' }
+              }
+            });
+            CollectJS.tokenize({}, function(resp) {
+              const token = resp.token || resp.payment_token;
+              const params = new URLSearchParams();
+              params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+              params.append('customer_vault', 'add_customer');
+              params.append('payment_token', token);
+              // Optionally pass the cardholder name for reference
+              const name = document.getElementById('vault-card-name').value;
+              if (name) params.append('first_name', name);
+              fetch('https://secure.nmi.com/api/transact.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+              })
+              .then(res => res.text())
+              .then(text => {
+                document.getElementById('vault-response').textContent = text;
+              })
+              .catch(err => {
+                document.getElementById('vault-response').textContent = 'Error: ' + err;
+              });
+            }, function(error) {
+              document.getElementById('vault-response').textContent = 'Tokenisation error: ' + JSON.stringify(error);
+            });
+          }
+        });
+      }
+
+      // Vault: Charge customer from vault
+      const vaultCharge = document.getElementById('vault-charge-submit');
+      if (vaultCharge) {
+        vaultCharge.addEventListener('click', function() {
+          const vaultId = document.getElementById('vault-id').value;
+          const amount = document.getElementById('vault-charge-amount').value;
+          const params = new URLSearchParams();
+          params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+          params.append('customer_vault_id', vaultId);
+          params.append('type', 'sale');
+          if (amount) params.append('amount', amount);
+          fetch('https://secure.nmi.com/api/transact.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          })
+          .then(res => res.text())
+          .then(text => {
+            document.getElementById('vault-charge-response').textContent = text;
+          })
+          .catch(err => {
+            document.getElementById('vault-charge-response').textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Invoices: Create invoice
+      const invoiceBtn = document.getElementById('invoice-create');
+      if (invoiceBtn) {
+        invoiceBtn.addEventListener('click', function() {
+          const email = document.getElementById('invoice-email').value;
+          const amount = document.getElementById('invoice-amount').value;
+          const params = new URLSearchParams();
+          params.append('security_key', 'hGE67vv4PSe7mg24Ck2554F4PDX2dZ5D');
+          params.append('invoicing', 'add_invoice');
+          if (email) params.append('email', email);
+          if (amount) params.append('amount', amount);
+          fetch('https://secure.nmi.com/api/transact.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          })
+          .then(res => res.text())
+          .then(text => {
+            document.getElementById('invoice-response').textContent = text;
+          })
+          .catch(err => {
+            document.getElementById('invoice-response').textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Product Manager: Add product to local list
+      const productAdd = document.getElementById('product-add');
+      if (productAdd) {
+        productAdd.addEventListener('click', function() {
+          const sku = document.getElementById('product-sku').value.trim();
+          const desc = document.getElementById('product-desc').value.trim();
+          const price = document.getElementById('product-price').value;
+          if (!sku && !desc && !price) return;
+          const tbody = document.getElementById('product-body');
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${sku}</td><td>${desc}</td><td>${price}</td>`;
+          tbody.appendChild(tr);
+          // reset fields
+          document.getElementById('product-sku').value = '';
+          document.getElementById('product-desc').value = '';
+          document.getElementById('product-price').value = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
