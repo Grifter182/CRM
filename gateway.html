@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merchant Haus — Gateway</title>
+  <!-- Include Tailwind for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Collect.js for tokenizing payment details (sandbox key) -->
+  <script
+    src="https://secure.nmi.com/token/Collect.js"
+    data-tokenization-key="8Aujf3-jP5dHZ-43QZMx-28f2Es"
+  ></script>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Lexend', sans-serif;
+    }
+    .form-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    .input-group {
+      margin-bottom: 1rem;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      color: #f8fafc;
+    }
+    #payment-result {
+      margin-top: 1rem;
+      white-space: pre-wrap;
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-section">
+    <h1 class="text-2xl font-bold mb-4 text-center">Process Payment</h1>
+    <form id="payment-form" novalidate>
+      <div class="input-group">
+        <label for="amount">Amount</label>
+        <input type="number" step="0.01" id="amount" name="amount" placeholder="10.00" required />
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="input-group">
+          <label for="firstname">First Name</label>
+          <input type="text" id="firstname" name="firstname" required />
+        </div>
+        <div class="input-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" id="lastname" name="lastname" required />
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div class="input-group">
+        <label for="zip">Postal Code</label>
+        <input type="text" id="zip" name="zip" required />
+      </div>
+      <!-- Collect.js card fields -->
+      <div class="input-group">
+        <label>Card Number</label>
+        <div id="ccnumber" class="p-2 rounded bg-gray-700"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="input-group">
+          <label>Expiration Date</label>
+          <div id="ccexp" class="p-2 rounded bg-gray-700"></div>
+        </div>
+        <div class="input-group">
+          <label>CVV</label>
+          <div id="cvv" class="p-2 rounded bg-gray-700"></div>
+        </div>
+      </div>
+      <button id="pay-button" type="button" class="w-full mt-4 py-2 bg-brand-600 hover:bg-brand-700 rounded text-white font-medium">Pay</button>
+      <div id="payment-result"></div>
+    </form>
+  </div>
+
+  <script>
+    // Configure Collect.js after the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      CollectJS.configure({
+        paymentSelector: '#pay-button',
+        variant: 'inline',
+        fields: {
+          ccnumber: { selector: '#ccnumber', placeholder: '0000 0000 0000 0000' },
+          ccexp: { selector: '#ccexp', placeholder: 'MM / YY' },
+          cvv: { selector: '#cvv', display: 'show', placeholder: '123' }
+        },
+        callback: function(response) {
+          // Get amount and build payload for Payment API
+          var amount = document.getElementById('amount').value;
+          var params = new URLSearchParams();
+          params.append('security_key', 'PWx9H775Ek6mKBPsKXSbygucY25rQ47n');
+          params.append('payment_token', response.token);
+          params.append('amount', amount);
+          params.append('type', 'sale');
+          // Additional optional parameters could be added here (e.g. billing information)
+          fetch('https://secure.nmi.com/api/transact.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          })
+          .then(function(res) { return res.text(); })
+          .then(function(text) {
+            document.getElementById('payment-result').textContent = text;
+          })
+          .catch(function(err) {
+            document.getElementById('payment-result').textContent = 'Error: ' + err;
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
