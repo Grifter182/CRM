@@ -280,6 +280,23 @@
         <p>Access documentation and support resources.</p>
         <button class="cta" data-action="open:help">Open</button>
       </section>
+
+      <!-- Newly added partner-level modules -->
+      <section class="app-icon">
+        <h2>Merchants</h2>
+        <p>Onboard and manage merchants.</p>
+        <button class="cta" data-action="open:merchants">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Users</h2>
+        <p>Manage portal users for merchants.</p>
+        <button class="cta" data-action="open:users">Open</button>
+      </section>
+      <section class="app-icon">
+        <h2>Billing &amp; Commission</h2>
+        <p>View merchant billing and commissions.</p>
+        <button class="cta" data-action="open:billing">Open</button>
+      </section>
     </div>
 
     <!-- Window: Collect Checkout -->
@@ -504,6 +521,123 @@
       <div class="window-content">
         <h3>Help &amp; Support</h3>
         <p>Need help? Visit <a href="https://docs.nmi.com" target="_blank">NMI Documentation</a> or <a href="https://support.nmi.com" target="_blank">Support</a>. For MerchantHaus-specific assistance, contact <a href="mailto:taylor@merchanthaus.io">taylor@merchanthaus.io</a>.</p>
+      </div>
+    </div>
+
+    <!-- Window: Merchants -->
+    <div id="window-merchants" class="window">
+      <div class="window-header">
+        <span class="window-title">Merchants</span>
+        <div class="window-controls">
+          <button class="window-btn close-btn" data-action="close:merchants"></button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>Merchant List</h3>
+        <button id="merchants-fetch" class="cta">Fetch Merchant List</button>
+        <pre id="merchants-list" style="white-space: pre-wrap; word-break: break-word; margin-top: 8px;"></pre>
+        <h3>Create Merchant</h3>
+        <form id="merchant-create-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="merch-business-name">Business Name</label>
+            <input type="text" id="merch-business-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="merch-first-name">First Name</label>
+            <input type="text" id="merch-first-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="merch-last-name">Last Name</label>
+            <input type="text" id="merch-last-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="merch-email">Email</label>
+            <input type="email" id="merch-email" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="merch-phone">Phone</label>
+            <input type="text" id="merch-phone" class="form-input" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="merchant-create" class="cta">Create Merchant</button>
+          </div>
+        </form>
+        <pre id="merchant-create-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+        <h3>Create Merchant API Key</h3>
+        <form id="merchant-key-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="merch-key-id">Merchant ID</label>
+            <input type="text" id="merch-key-id" class="form-input" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="merchant-key-create" class="cta">Generate API Key</button>
+          </div>
+        </form>
+        <pre id="merchant-key-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+
+    <!-- Window: Users -->
+    <div id="window-users" class="window">
+      <div class="window-header">
+        <span class="window-title">Users</span>
+        <div class="window-controls">
+          <button class="window-btn close-btn" data-action="close:users"></button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>User List</h3>
+        <button id="users-fetch" class="cta">Fetch User List</button>
+        <pre id="users-list" style="white-space: pre-wrap; word-break: break-word; margin-top: 8px;"></pre>
+        <h3>Create User</h3>
+        <form id="user-create-form" class="form-grid" onsubmit="return false;">
+          <div class="form-group">
+            <label for="user-merchant-id">Merchant ID</label>
+            <input type="text" id="user-merchant-id" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-username">Username</label>
+            <input type="text" id="user-username" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-email">Email</label>
+            <input type="email" id="user-email" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-first-name">First Name</label>
+            <input type="text" id="user-first-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-last-name">Last Name</label>
+            <input type="text" id="user-last-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="user-role">Role</label>
+            <input type="text" id="user-role" class="form-input" placeholder="e.g., admin" />
+          </div>
+          <div class="form-group">
+            <button type="button" id="user-create" class="cta">Create User</button>
+          </div>
+        </form>
+        <pre id="user-create-response" style="white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+
+    <!-- Window: Billing & Commission -->
+    <div id="window-billing" class="window">
+      <div class="window-header">
+        <span class="window-title">Billing &amp; Commission</span>
+        <div class="window-controls">
+          <button class="window-btn close-btn" data-action="close:billing"></button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>Merchant Billing</h3>
+        <button id="billing-fetch" class="cta">Fetch Billing</button>
+        <pre id="billing-response" style="white-space: pre-wrap; word-break: break-word; margin-top: 8px;"></pre>
+        <h3>Commission</h3>
+        <button id="commission-fetch" class="cta">Fetch Commission</button>
+        <pre id="commission-response" style="white-space: pre-wrap; word-break: break-word; margin-top: 8px;"></pre>
       </div>
     </div>
   </main>
@@ -795,6 +929,213 @@
           document.getElementById('product-sku').value = '';
           document.getElementById('product-desc').value = '';
           document.getElementById('product-price').value = '';
+        });
+      }
+
+      // Partner API key constant for v4 endpoints
+      const PARTNER_KEY = 'v4_secret_Kbxe2HevAygd9v46Qx88839yVMRmH7EE';
+
+      // Merchants: Fetch merchant list
+      const merchantsFetch = document.getElementById('merchants-fetch');
+      if (merchantsFetch) {
+        merchantsFetch.addEventListener('click', function() {
+          const listPre = document.getElementById('merchants-list');
+          listPre.textContent = 'Loading...';
+          fetch('https://secure.nmi.com/api/v4/merchants/reports', {
+            method: 'GET',
+            headers: { 'Authorization': PARTNER_KEY }
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              listPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              listPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            listPre.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Merchants: Create merchant
+      const merchantCreate = document.getElementById('merchant-create');
+      if (merchantCreate) {
+        merchantCreate.addEventListener('click', function() {
+          const businessName = document.getElementById('merch-business-name').value;
+          const firstName = document.getElementById('merch-first-name').value;
+          const lastName = document.getElementById('merch-last-name').value;
+          const email = document.getElementById('merch-email').value;
+          const phone = document.getElementById('merch-phone').value;
+          const payload = {
+            business_name: businessName,
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone: phone
+          };
+          const respPre = document.getElementById('merchant-create-response');
+          respPre.textContent = 'Submitting...';
+          fetch('https://secure.nmi.com/api/v4/merchants', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': PARTNER_KEY },
+            body: JSON.stringify(payload)
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              respPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              respPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            respPre.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Merchants: Create API key
+      const merchantKeyBtn = document.getElementById('merchant-key-create');
+      if (merchantKeyBtn) {
+        merchantKeyBtn.addEventListener('click', function() {
+          const merchId = document.getElementById('merch-key-id').value;
+          const keyPre = document.getElementById('merchant-key-response');
+          keyPre.textContent = 'Submitting...';
+          fetch('https://secure.nmi.com/api/v4/merchants/' + encodeURIComponent(merchId) + '/api_keys', {
+            method: 'POST',
+            headers: { 'Authorization': PARTNER_KEY }
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              keyPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              keyPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            keyPre.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Users: Fetch user list
+      const usersFetch = document.getElementById('users-fetch');
+      if (usersFetch) {
+        usersFetch.addEventListener('click', function() {
+          const usersPre = document.getElementById('users-list');
+          usersPre.textContent = 'Loading...';
+          fetch('https://secure.nmi.com/api/v4/users/reports', {
+            method: 'GET',
+            headers: { 'Authorization': PARTNER_KEY }
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              usersPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              usersPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            usersPre.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Users: Create user
+      const userCreateBtn = document.getElementById('user-create');
+      if (userCreateBtn) {
+        userCreateBtn.addEventListener('click', function() {
+          const merchantId = document.getElementById('user-merchant-id').value;
+          const username = document.getElementById('user-username').value;
+          const email = document.getElementById('user-email').value;
+          const firstNameU = document.getElementById('user-first-name').value;
+          const lastNameU = document.getElementById('user-last-name').value;
+          const role = document.getElementById('user-role').value;
+          const payload = {
+            merchant_id: merchantId,
+            username: username,
+            email: email,
+            first_name: firstNameU,
+            last_name: lastNameU,
+            role: role
+          };
+          const userResp = document.getElementById('user-create-response');
+          userResp.textContent = 'Submitting...';
+          fetch('https://secure.nmi.com/api/v4/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': PARTNER_KEY },
+            body: JSON.stringify(payload)
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              userResp.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              userResp.textContent = text;
+            }
+          })
+          .catch(err => {
+            userResp.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Billing: Fetch billing
+      const billingFetchBtn = document.getElementById('billing-fetch');
+      if (billingFetchBtn) {
+        billingFetchBtn.addEventListener('click', function() {
+          const billingPre = document.getElementById('billing-response');
+          billingPre.textContent = 'Loading...';
+          fetch('https://secure.nmi.com/api/v4/billing/reports', {
+            method: 'GET',
+            headers: { 'Authorization': PARTNER_KEY }
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              billingPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              billingPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            billingPre.textContent = 'Error: ' + err;
+          });
+        });
+      }
+
+      // Billing: Fetch commission
+      const commissionFetchBtn = document.getElementById('commission-fetch');
+      if (commissionFetchBtn) {
+        commissionFetchBtn.addEventListener('click', function() {
+          const commissionPre = document.getElementById('commission-response');
+          commissionPre.textContent = 'Loading...';
+          fetch('https://secure.nmi.com/api/v4/billing/commission/reports', {
+            method: 'GET',
+            headers: { 'Authorization': PARTNER_KEY }
+          })
+          .then(res => res.text())
+          .then(text => {
+            try {
+              const data = JSON.parse(text);
+              commissionPre.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              commissionPre.textContent = text;
+            }
+          })
+          .catch(err => {
+            commissionPre.textContent = 'Error: ' + err;
+          });
         });
       }
     });
